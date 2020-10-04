@@ -1,0 +1,28 @@
+{
+  "name": "etcoder/time",
+  "type": "library",
+  "description": "Time library for PHP projects.",
+  "keywords": [
+    "enum"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Evgeniy Tkachenko",
+      "email": "et.coder@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "etcoder\\Time\\": "src/etcoder/Time"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "etcoder\\Time\\": "tests/etcoder/Time"
+    }
+  }
+}
