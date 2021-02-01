@@ -48,6 +48,23 @@ class TimeTest extends TestCase
         $this->assertEquals(0, $time->next(60)->hour());
         $this->assertEquals(0, $time->next(60)->minute());
         $this->assertEquals(01, $time->next(60)->second());
+
+        $time = TimePoint::builder()->midnightDay(Day::builder()->now());
+        $this->assertInstanceOf(Instant::class, $time);
+
+        $this->assertEquals(0, $time->hour());
+        $this->assertEquals(0, $time->minute());
+        $this->assertEquals(0, $time->second());
+
+        $time = TimePoint::builder()->endDay(Day::builder()->byIntParams(2020,12,31));
+        $this->assertInstanceOf(Instant::class, $time);
+
+        $this->assertEquals(31, $time->day()->number());
+        $this->assertEquals(12, $time->day()->month()->number());
+        $this->assertEquals(2020, $time->day()->month()->year()->number());
+        $this->assertEquals(24, $time->hour());
+        $this->assertEquals(0, $time->minute());
+        $this->assertEquals(0, $time->second());
     }
 
     public function testCompare()

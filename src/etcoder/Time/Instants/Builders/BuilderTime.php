@@ -22,4 +22,14 @@ class BuilderTime
     {
         return new TimePoint(Day::builder()->now(), $hours, $minutes, 0);
     }
+
+    public function midnightDay(Day $day): TimePoint
+    {
+        return new TimePoint($day, 0, 0, 0);
+    }
+
+    public function endDay(Day $day): TimePoint
+    {
+        return new TimePoint($day, 24, 0, 0);
+    }
 }
