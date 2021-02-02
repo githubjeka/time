@@ -19,45 +19,45 @@ trait SeasonalMonth
 {
     abstract protected function getMonth(): Month;
 
-    public function isNotWinter(): bool
+    final public function isNotWinter(): bool
     {
         return !$this->isWinter();
     }
 
-    public function isWinter(): bool
+    final public function isWinter(): bool
     {
         $n = $this->getMonth()->number();
         return $n === 12 || $n === 1 || $n === 2;
     }
 
-    public function isNotSpring(): bool
+    final public function isNotSpring(): bool
     {
         return !$this->isSpring();
     }
 
-    public function isSpring(): bool
+    final public function isSpring(): bool
     {
         $n = $this->getMonth()->number();
         return $n === 3 || $n === 4 || $n === 5;
     }
 
-    public function isNotSummer(): bool
+    final public function isNotSummer(): bool
     {
         return !$this->isSummer();
     }
 
-    public function isSummer(): bool
+    final public function isSummer(): bool
     {
         $n = $this->getMonth()->number();
         return $n === 6 || $n === 7 || $n === 8;
     }
 
-    public function isNotAutumn(): bool
+    final public function isNotAutumn(): bool
     {
         return !$this->isAutumn();
     }
 
-    public function isAutumn(): bool
+    final public function isAutumn(): bool
     {
         $n = $this->getMonth()->number();
         return $n === 9 || $n === 10 || $n === 11;

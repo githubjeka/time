@@ -19,7 +19,7 @@ use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\TimeComparison;
 use etcoder\Time\Instants\Internal\Instant;
 
-class TimePoint extends Instant
+final class TimePoint extends Instant
 {
     private $day;
     private $hour;

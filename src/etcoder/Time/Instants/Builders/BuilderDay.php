@@ -17,7 +17,7 @@ use etcoder\Time\Instants\Day;
 use etcoder\Time\Instants\Month;
 use etcoder\Time\Instants\Year;
 
-class BuilderDay
+final class BuilderDay
 {
     /**
      * Returns Day by string format iso8601

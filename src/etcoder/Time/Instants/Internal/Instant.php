@@ -20,19 +20,19 @@ abstract class Instant implements InstantInterface
 {
     use Iterator;
 
-    public function compareTo(InstantInterface $instant): ComparisonResult
+    final public function compareTo(InstantInterface $instant): ComparisonResult
     {
         $this->checkTypeInstant($instant);
 
         return $this->comparisonResult($instant);
     }
 
-    protected function getInstant(): InstantInterface
+    final protected function getInstant(): InstantInterface
     {
         return $this;
     }
 
-    protected function checkTypeInstant(InstantInterface $otherInstant)
+    final protected function checkTypeInstant(InstantInterface $otherInstant)
     {
         $class = get_class($this);
         if (!($otherInstant instanceof $class)) {

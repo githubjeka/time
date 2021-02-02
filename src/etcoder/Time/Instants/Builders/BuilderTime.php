@@ -16,7 +16,7 @@ namespace etcoder\Time\Instants\Builders;
 use etcoder\Time\Instants\Day;
 use etcoder\Time\Instants\TimePoint;
 
-class BuilderTime
+final class BuilderTime
 {
     public function todayByMinute(int $hours, int $minutes): TimePoint
     {

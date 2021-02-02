@@ -15,7 +15,7 @@ namespace etcoder\Time\Instants\Builders;
 
 use etcoder\Time\Instants\Year;
 
-class BuilderYear
+final class BuilderYear
 {
     /**
      * Returns Year by integer value
