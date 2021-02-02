@@ -15,29 +15,35 @@ namespace etcoder\Time\Instants\Internal;
 
 use etcoder\Time\Instants\Interfaces\Instant as InstantInterface;
 use etcoder\Time\Instants\Iterators\IteratorInstant;
+use Generator;
 
 trait Iterator
 {
-    abstract protected function getInstant(): InstantInterface;
-
-    abstract protected function checkTypeInstant(InstantInterface $otherInstant);
-
     /**
      * @param InstantInterface $instant
      * @param int $step
-     * @return InstantInterface[]|\Generator
+     * @return InstantInterface[]|Generator
      */
-    public function iteratorTo(InstantInterface $instant, int $step = 1)
+    final public function iteratorTo(InstantInterface $instant, int $step = 1)
     {
         $this->checkTypeInstant($instant);
         $iterator = new IteratorInstant();
         return $iterator->list($this->getInstant(), $instant, $step);
     }
 
-    public function arrayTo(InstantInterface $instant, int $step = 1)
+    /**
+     * @param InstantInterface $instant
+     * @param int $step
+     * @return Instant[]
+     */
+    final public function arrayTo(InstantInterface $instant, int $step = 1): array
     {
         $this->checkTypeInstant($instant);
         $iterator = new IteratorInstant();
         return $iterator->array($this->getInstant(), $instant, $step);
     }
+
+    abstract protected function getInstant(): InstantInterface;
+
+    abstract protected function checkTypeInstant(InstantInterface $otherInstant);
 }

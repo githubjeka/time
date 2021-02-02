@@ -17,24 +17,23 @@ use etcoder\Time\Instants\Builders\BuilderYear;
 use etcoder\Time\Instants\Formats\YearFormatting;
 use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\YearsComparison;
-use etcoder\Time\Instants\Internal\Iterator;
 use etcoder\Time\Instants\Internal\MonthsOfYear;
+use Generator;
+use InvalidArgumentException;
 
 /**
  * @method Year[] arrayTo(Year $year, int $step = 1)
- * @method \Generator|Year[] iteratorTo(Year $year, int $step = 1)
+ * @method Generator|Year[] iteratorTo(Year $year, int $step = 1)
  * @method ComparisonResult compareTo(Year $year)
  */
 final class Year extends Internal\Instant
 {
-    use Iterator;
-
     private $number;
 
     public function __construct(int $number)
     {
         if ($number < 1 || $number > 32767) {
-            throw new \InvalidArgumentException($number);
+            throw new InvalidArgumentException($number);
         }
         $this->number = $number;
     }
