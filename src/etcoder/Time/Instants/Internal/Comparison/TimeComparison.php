@@ -50,6 +50,10 @@ final class TimeComparison implements ComparisonResult
 
     public function isMore(): bool
     {
+        if ($this->isEqual()) {
+            return false;
+        }
+
         if ($this->isDaysNotEquals()) {
             return $this->isDayMoreThanOther();
         }
@@ -86,7 +90,7 @@ final class TimeComparison implements ComparisonResult
 
     private function isDayMoreThanOther(): bool
     {
-        return $this->comparisonResultDays()->isEqual();
+        return $this->comparisonResultDays()->isMore();
     }
 
     private function isDaysEquals(): bool

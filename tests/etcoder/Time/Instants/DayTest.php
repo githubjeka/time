@@ -81,30 +81,32 @@ class DayTest extends TestCase
 
     public function testCompare()
     {
-        $day = Day::builder()->byIntParams(2000, 1, 1);
-        $otherDay = Day::builder()->byIntParams(2000, 1, 2);
+        $day = Day::builder()->byIntParams(2021,1,1);
+        $otherDay = Day::builder()->byIntParams(2021,1,4);
+
+        $this->assertFalse($day->compareTo($otherDay)->isEqual());
+        $this->assertFalse($otherDay->compareTo($day)->isEqual());
+
+        $this->assertTrue($day->compareTo($otherDay)->isNotEqual());
+        $this->assertTrue($otherDay->compareTo($day)->isNotEqual());
 
         $this->assertTrue($day->compareTo($otherDay)->isLess());
         $this->assertFalse($otherDay->compareTo($day)->isLess());
 
-        $this->assertTrue($otherDay->compareTo($day)->isNotLess());
         $this->assertFalse($day->compareTo($otherDay)->isNotLess());
+        $this->assertTrue($otherDay->compareTo($day)->isNotLess());
 
-        $this->assertTrue($otherDay->compareTo($day)->isMore());
         $this->assertFalse($day->compareTo($otherDay)->isMore());
+        $this->assertTrue($otherDay->compareTo($day)->isMore());
 
         $this->assertTrue($day->compareTo($otherDay)->isNotMore());
         $this->assertFalse($otherDay->compareTo($day)->isNotMore());
 
+        $day = Day::builder()->byIntParams(2000, 1, 1);
         $copyDay = Day::builder()->byIntParams(2000, 1, 1);
 
-        $this->assertFalse($day->compareTo($otherDay)->isEqual());
-        $this->assertFalse($otherDay->compareTo($day)->isEqual());
         $this->assertTrue($day->compareTo($copyDay)->isEqual());
-
         $this->assertFalse($day->compareTo($copyDay)->isNotEqual());
-        $this->assertTrue($day->compareTo($otherDay)->isNotEqual());
-        $this->assertTrue($otherDay->compareTo($day)->isNotEqual());
     }
 
     public function testSeason()
