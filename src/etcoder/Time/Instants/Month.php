@@ -44,7 +44,7 @@ final class Month extends Instant
     /**
      * Provides a flexible way to create Month object
      */
-    public static function build(): BuilderMonthInterface
+    public static function builder(): BuilderMonthInterface
     {
         return new BuilderMonth();
     }

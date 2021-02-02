@@ -111,14 +111,14 @@ class IteratorInstantTest extends TestCase
             ],
             'months' => [
                 [
-                    Month::build()->byIntParams(2000, 11),
-                    Month::build()->byIntParams(2000, 12),
-                    Month::build()->byIntParams(2001, 1),
-                    Month::build()->byIntParams(2001, 2),
-                    Month::build()->byIntParams(2001, 3),
-                    Month::build()->byIntParams(2001, 4),
-                    Month::build()->byIntParams(2001, 5),
-                    Month::build()->byIntParams(2001, 6),
+                    Month::builder()->byIntParams(2000, 11),
+                    Month::builder()->byIntParams(2000, 12),
+                    Month::builder()->byIntParams(2001, 1),
+                    Month::builder()->byIntParams(2001, 2),
+                    Month::builder()->byIntParams(2001, 3),
+                    Month::builder()->byIntParams(2001, 4),
+                    Month::builder()->byIntParams(2001, 5),
+                    Month::builder()->byIntParams(2001, 6),
                 ],
             ],
             'years' => [

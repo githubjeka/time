@@ -29,7 +29,7 @@ class FormatInstantTest extends TestCase
 
     public function testMonth()
     {
-        $month = Month::build()->byIntParams(2020, 01);
+        $month = Month::builder()->byIntParams(2020, 01);
         $this->assertEquals('202001', $month->format()->toBasic());
         $this->assertEquals('2020-01', $month->format()->toExtended());
     }
