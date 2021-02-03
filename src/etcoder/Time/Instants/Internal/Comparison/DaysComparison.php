@@ -63,7 +63,7 @@ final class DaysComparison implements ComparisonResult
 
     private function isMonthMoreThanOther(): bool
     {
-        return $this->comparisonResultMonths()->isEqual();
+        return $this->comparisonResultMonths()->isMore();
     }
 
     private function isMonthsEquals(): bool

@@ -55,6 +55,11 @@ class MonthTest extends TestCase
         $this->assertFalse($month->compareTo($copyMonth)->isNotEqual());
         $this->assertTrue($month->compareTo($otherMonth)->isNotEqual());
         $this->assertTrue($otherMonth->compareTo($month)->isNotEqual());
+
+        $month = Month::builder()->byIntParams(2021,1);
+        $otherMonth = Month::builder()->byIntParams(2020,12);
+
+        $this->assertFalse($month->compareTo($otherMonth)->isLess());
     }
 
     public function testInstant()

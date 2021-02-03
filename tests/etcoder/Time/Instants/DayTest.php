@@ -107,6 +107,11 @@ class DayTest extends TestCase
 
         $this->assertTrue($day->compareTo($copyDay)->isEqual());
         $this->assertFalse($day->compareTo($copyDay)->isNotEqual());
+
+        $day = Day::builder()->byIntParams(2021,1,31);
+        $otherDay = Day::builder()->byIntParams(2020,12,1);
+
+        $this->assertFalse($day->compareTo($otherDay)->isLess());
     }
 
     public function testSeason()
