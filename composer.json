@@ -1,9 +1,14 @@
 {
   "name": "etcoder/time",
   "type": "library",
-  "description": "Time library for PHP projects.",
+  "description": "PHP Time library for Humans",
   "keywords": [
-    "enum"
+    "datetime",
+    "date",
+    "time",
+    "period",
+    "interval",
+    "range"
   ],
   "license": "MIT",
   "authors": [
