@@ -10,8 +10,22 @@
          stopOnFailure="true"
 >
     <testsuites>
-        <testsuite name="Time Test Suite">
-            <directory suffix=".php">./tests/</directory>
+        <testsuite name="instants">
+            <file>./tests/etcoder/Time/Instants/YearTest.php</file>
+            <file>./tests/etcoder/Time/Instants/MonthTest.php</file>
+            <file>./tests/etcoder/Time/Instants/DayTest.php</file>
+            <file>./tests/etcoder/Time/Instants/TimeTest.php</file>
+            <file>./tests/etcoder/Time/Instants/MinuteTest.php</file>
+            <file>./tests/etcoder/Time/Instants/HourTest.php</file>
+        </testsuite>
+        <testsuite name="format">
+            <directory>./tests/etcoder/Time/Format/</directory>
+        </testsuite>
+        <testsuite name="iterators">
+            <directory>./tests/etcoder/Time/Iterators/</directory>
+        </testsuite>
+        <testsuite name="periods">
+            <directory>./tests/etcoder/Time/Periods/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
