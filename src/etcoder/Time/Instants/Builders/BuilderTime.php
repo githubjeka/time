@@ -14,22 +14,40 @@ declare(strict_types=1);
 namespace etcoder\Time\Instants\Builders;
 
 use etcoder\Time\Instants\Day;
-use etcoder\Time\Instants\TimePoint;
+use etcoder\Time\Instants\Time;
 
 final class BuilderTime
 {
-    public function todayByMinute(int $hours, int $minutes): TimePoint
+    private $day;
+
+    public function __construct()
     {
-        return new TimePoint(Day::builder()->now(), $hours, $minutes, 0);
+        $this->day = Day::builder()->now();
     }
 
-    public function midnightDay(Day $day): TimePoint
+    public function today(int $hour, int $minute, int $second = 0): Time
     {
-        return new TimePoint($day, 0, 0, 0);
+        return $this->time($hour, $minute, $second);
     }
 
-    public function endDay(Day $day): TimePoint
+    public function forDay(Day $day): BuilderTime
     {
-        return new TimePoint($day, 24, 0, 0);
+        $this->day = $day;
+        return $this;
+    }
+
+    public function time(int $hour, int $minute, int $second = 0): Time
+    {
+        return new Time($this->day, $hour, $minute, $second);
+    }
+
+    public function midnightDay(Day $day): Time
+    {
+        return $this->forDay($day)->time(0, 0);
+    }
+
+    public function endDay(Day $day): Time
+    {
+        return $this->forDay($day)->time(24, 0);
     }
 }

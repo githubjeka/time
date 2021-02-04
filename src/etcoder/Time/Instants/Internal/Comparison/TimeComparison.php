@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace etcoder\Time\Instants\Internal\Comparison;
 
 use etcoder\Time\Instants\Interfaces\ComparisonResult;
-use etcoder\Time\Instants\TimePoint;
+use etcoder\Time\Instants\Time;
 
 final class TimeComparison implements ComparisonResult
 {
     private $time;
     private $otherTime;
 
-    public function __construct(TimePoint $time, TimePoint $otherDay)
+    public function __construct(Time $time, Time $otherDay)
     {
         $this->time = $time;
         $this->otherTime = $otherDay;
@@ -39,8 +39,8 @@ final class TimeComparison implements ComparisonResult
 
         return $this->isDaysEquals()
                && $this->time->hour() === $this->otherTime->hour()
-               && $this->time->minute() === $this->time->minute()
-               && $this->time->second() === $this->time->second();
+               && $this->time->minute() === $this->otherTime->minute()
+               && $this->time->second() === $this->otherTime->second();
     }
 
     public function isNotEqual(): bool
@@ -58,16 +58,20 @@ final class TimeComparison implements ComparisonResult
             return $this->isDayMoreThanOther();
         }
 
-        if ($this->time->hour() <= $this->otherTime->hour()) {
+        if ($this->time->hour() < $this->otherTime->hour()) {
             return false;
         }
 
-        if ($this->time->minute() <= $this->otherTime->minute()) {
-            return false;
-        }
+        if ($this->time->hour() === $this->otherTime->hour()) {
+            if ($this->time->minute() < $this->otherTime->minute()) {
+                return false;
+            }
 
-        if ($this->time->second() <= $this->otherTime->second()) {
-            return false;
+            if ($this->time->minute() === $this->otherTime->minute()) {
+                if ($this->time->second() <= $this->otherTime->second()) {
+                    return false;
+                }
+            }
         }
 
         return true;

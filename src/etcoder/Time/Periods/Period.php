@@ -14,33 +14,70 @@ declare(strict_types=1);
 namespace etcoder\Time\Periods;
 
 
-use etcoder\Time\Instants\Internal\Instant;
+use etcoder\Time\Instants\{Hour, Internal\Instant, Minute, Time};
+use etcoder\Time\Periods\Internal\PositionResult;
+use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange, SecondsRange, YearsRange};
 
 /**
- * Describe period from start Instant to end Instant
+ * Describes period of time.
  */
-abstract class Period
+final class Period
 {
-    protected $startInstant;
-    protected $endInstant;
+    protected $startPoint;
+    protected $endPoint;
 
-    final public function startInstant(): Instant
+    public function __construct(Time $start, Time $end)
     {
-        return $this->startInstant;
+        if ($start->compareTo($end)->isMore()) {
+            $this->startPoint = $end;
+            $this->endPoint = $start;
+        } else {
+            $this->startPoint = $start;
+            $this->endPoint = $end;
+        }
     }
 
-    final public function endInstant(): Instant
+    public static function builder(): Interfaces\BuilderPeriod
     {
-        return $this->endInstant;
+        return new Internal\BuilderPeriod();
     }
 
-    final public function iterator()
+    public function yearScale(): YearsRange
     {
-        return $this->startInstant()->iteratorTo($this->endInstant());
+        return new YearsRange($this->startPoint->day()->month()->year(), $this->endPoint->day()->month()->year());
     }
 
-    final public function array(): array
+    public function monthScale(): MonthRange
     {
-        return $this->startInstant()->arrayTo($this->endInstant());
+        return new MonthRange($this->startPoint->day()->month(), $this->endPoint->day()->month());
+    }
+
+    public function dayScale(): DaysRange
+    {
+        return new DaysRange($this->startPoint->day(), $this->endPoint->day());
+    }
+
+    public function hourScale(): HoursRange
+    {
+        $start = new Hour($this->startPoint->day(), $this->startPoint->hour());
+        $end = new Hour($this->endPoint->day(), $this->endPoint->hour());
+        return new HoursRange($start, $end);
+    }
+
+    public function minuteScale(): MinutesRange
+    {
+        $start = new Minute($this->startPoint->day(), $this->startPoint->hour(), $this->startPoint->minute());
+        $end = new Minute($this->endPoint->day(), $this->endPoint->hour(), $this->endPoint->minute());
+        return new MinutesRange($start, $end);
+    }
+
+    public function secondScale(): SecondsRange
+    {
+        return new SecondsRange($this->startPoint, $this->endPoint);
+    }
+
+    public function relativeTo(Instant $instant): Interfaces\PositionResult
+    {
+        return new PositionResult($this, $instant);
     }
 }

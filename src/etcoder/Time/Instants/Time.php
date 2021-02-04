@@ -19,7 +19,7 @@ use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\TimeComparison;
 use etcoder\Time\Instants\Internal\Instant;
 
-final class TimePoint extends Instant
+final class Time extends Instant
 {
     private $day;
     private $hour;
@@ -75,7 +75,7 @@ final class TimePoint extends Instant
         return $this->second;
     }
 
-    public function next(int $step = 1)
+    public function next(int $step = 1) : Time
     {
         $newTime = $this;
         while ($step > 0) {
@@ -85,7 +85,7 @@ final class TimePoint extends Instant
         return $newTime;
     }
 
-    public function previous(int $step = 1)
+    public function previous(int $step = 1) : Time
     {
         $newTime = $this;
         while ($step > 0) {
@@ -95,46 +95,46 @@ final class TimePoint extends Instant
         return $newTime;
     }
 
-    private function nextSecond(TimePoint $time): TimePoint
+    private function nextSecond(Time $time): Time
     {
         if ($time->hour === 24) {
-            return new TimePoint($time->day->next(), 0, 0, 1);
+            return new Time($time->day->next(), 0, 0, 1);
         }
 
         if ($time->second !== 59) {
-            return new TimePoint($time->day, $time->hour(), $time->minute(), $time->second() + 1);
+            return new Time($time->day, $time->hour(), $time->minute(), $time->second() + 1);
         }
 
         if ($time->minute !== 59) {
-            return new TimePoint($time->day, $time->hour(), $time->minute() + 1, 0);
+            return new Time($time->day, $time->hour(), $time->minute() + 1, 0);
         }
 
         if ($time->hour !== 23) {
-            return new TimePoint($time->day, $time->hour() + 1, 0, 0);
+            return new Time($time->day, $time->hour() + 1, 0, 0);
         }
 
-        return new TimePoint($time->day->next(), 0, 0, 1);
+        return new Time($time->day->next(), 0, 0, 1);
     }
 
-    private function prevSecond(TimePoint $time): TimePoint
+    private function prevSecond(Time $time): Time
     {
         if ($time->second !== 00) {
-            return new TimePoint($time->day, $time->hour(), $time->minute(), $time->second() - 1);
+            return new Time($time->day, $time->hour(), $time->minute(), $time->second() - 1);
         }
 
         if ($time->minute !== 00) {
-            return new TimePoint($time->day, $time->hour(), $time->minute() - 1, 59);
+            return new Time($time->day, $time->hour(), $time->minute() - 1, 59);
         }
 
         if ($time->hour !== 00) {
-            return new TimePoint($time->day, $time->hour() - 1, 59, 59);
+            return new Time($time->day, $time->hour() - 1, 59, 59);
         }
 
-        return new TimePoint($time->day->previous(), 23, 59, 59);
+        return new Time($time->day->previous(), 23, 59, 59);
     }
 
     /**
-     * @param Interfaces\Instant|TimePoint $instant
+     * @param Interfaces\Instant|Time $instant
      * @return ComparisonResult
      */
     protected function comparisonResult(Interfaces\Instant $instant): ComparisonResult

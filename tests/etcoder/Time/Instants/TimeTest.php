@@ -20,7 +20,7 @@ class TimeTest extends TestCase
 {
     public function testInstant()
     {
-        $time = TimePoint::builder()->todayByMinute(00, 00);
+        $time = Time::builder()->today(00, 00);
         $this->assertInstanceOf(Instant::class, $time);
 
         $this->assertEquals(23, $time->previous(1)->hour());
@@ -31,7 +31,7 @@ class TimeTest extends TestCase
         $this->assertEquals(0, $time->next(1)->minute());
         $this->assertEquals(01, $time->next(1)->second());
 
-        $time = TimePoint::builder()->todayByMinute(24, 00);
+        $time = Time::builder()->today(24, 00);
         $this->assertInstanceOf(Instant::class, $time);
 
         $this->assertEquals(23, $time->previous(1)->hour());
@@ -42,21 +42,22 @@ class TimeTest extends TestCase
         $this->assertEquals(0, $time->next(1)->minute());
         $this->assertEquals(01, $time->next(1)->second());
 
-        $time = TimePoint::builder()->todayByMinute(23, 59);
+        $time = Time::builder()->today(23, 59);
         $this->assertInstanceOf(Instant::class, $time);
 
         $this->assertEquals(0, $time->next(60)->hour());
         $this->assertEquals(0, $time->next(60)->minute());
         $this->assertEquals(01, $time->next(60)->second());
 
-        $time = TimePoint::builder()->midnightDay(Day::builder()->now());
+        $time = Time::builder()->midnightDay(Day::builder()->now());
         $this->assertInstanceOf(Instant::class, $time);
 
         $this->assertEquals(0, $time->hour());
         $this->assertEquals(0, $time->minute());
         $this->assertEquals(0, $time->second());
 
-        $time = TimePoint::builder()->endDay(Day::builder()->byIntParams(2020,12,31));
+        $day = Day::builder()->byIntParams(2020, 12, 31);
+        $time = Time::builder()->endDay($day);
         $this->assertInstanceOf(Instant::class, $time);
 
         $this->assertEquals(31, $time->day()->number());
@@ -65,12 +66,20 @@ class TimeTest extends TestCase
         $this->assertEquals(24, $time->hour());
         $this->assertEquals(0, $time->minute());
         $this->assertEquals(0, $time->second());
+
+        $time = Time::builder()->forDay($day)->time(15, 23);
+        $this->assertEquals(31, $time->day()->number());
+        $this->assertEquals(12, $time->day()->month()->number());
+        $this->assertEquals(2020, $time->day()->month()->year()->number());
+        $this->assertEquals(15, $time->hour());
+        $this->assertEquals(23, $time->minute());
+        $this->assertEquals(0, $time->second());
     }
 
     public function testCompare()
     {
-        $time = TimePoint::builder()->todayByMinute(00, 00);
-        $otherTime = TimePoint::builder()->todayByMinute(24, 00);
+        $time = Time::builder()->today(00, 00);
+        $otherTime = Time::builder()->today(24, 00);
 
         $this->assertFalse($time->compareTo($otherTime)->isEqual());
         $this->assertFalse($time->compareTo($otherTime)->isMore());
@@ -79,8 +88,8 @@ class TimeTest extends TestCase
         $this->assertTrue($time->compareTo($otherTime)->isNotMore());
         $this->assertTrue($time->compareTo($otherTime)->isLess());
 
-        $time = TimePoint::builder()->todayByMinute(00, 00);
-        $otherTime = new TimePoint($time->day()->previous(), 24, 0, 0);
+        $time = Time::builder()->today(00, 00);
+        $otherTime = new Time($time->day()->previous(), 24, 0, 0);
 
         $this->assertTrue($time->compareTo($otherTime)->isEqual());
         $this->assertFalse($time->compareTo($otherTime)->isMore());
@@ -89,8 +98,8 @@ class TimeTest extends TestCase
         $this->assertTrue($time->compareTo($otherTime)->isNotMore());
         $this->assertFalse($time->compareTo($otherTime)->isLess());
 
-        $time = TimePoint::builder()->todayByMinute(24, 00);
-        $otherTime = new TimePoint($time->day()->next(), 00, 0, 0);
+        $time = Time::builder()->today(24, 00);
+        $otherTime = new Time($time->day()->next(), 00, 0, 0);
 
         $this->assertTrue($time->compareTo($otherTime)->isEqual());
         $this->assertFalse($time->compareTo($otherTime)->isMore());
@@ -99,8 +108,8 @@ class TimeTest extends TestCase
         $this->assertTrue($time->compareTo($otherTime)->isNotMore());
         $this->assertFalse($time->compareTo($otherTime)->isLess());
 
-        $time = TimePoint::builder()->midnightDay(Day::builder()->now());
-        $otherTime = TimePoint::builder()->midnightDay(Day::builder()->now()->next());
+        $time = Time::builder()->midnightDay(Day::builder()->now());
+        $otherTime = Time::builder()->midnightDay(Day::builder()->now()->next());
 
         $this->assertFalse($time->compareTo($otherTime)->isEqual());
         $this->assertFalse($time->compareTo($otherTime)->isMore());
@@ -109,8 +118,8 @@ class TimeTest extends TestCase
         $this->assertTrue($time->compareTo($otherTime)->isNotMore());
         $this->assertTrue($time->compareTo($otherTime)->isLess());
 
-        $time = TimePoint::builder()->midnightDay(Day::builder()->byIntParams(2021,1,1));
-        $otherTime = TimePoint::builder()->midnightDay(Day::builder()->byIntParams(2021,1,4));
+        $time = Time::builder()->midnightDay(Day::builder()->byIntParams(2021, 1, 1));
+        $otherTime = Time::builder()->midnightDay(Day::builder()->byIntParams(2021, 1, 4));
 
         $this->assertFalse($otherTime->compareTo($time)->isEqual());
         $this->assertTrue($otherTime->compareTo($time)->isMore());
@@ -118,5 +127,47 @@ class TimeTest extends TestCase
         $this->assertTrue($otherTime->compareTo($time)->isNotEqual());
         $this->assertFalse($otherTime->compareTo($time)->isNotMore());
         $this->assertFalse($otherTime->compareTo($time)->isLess());
+
+        $time = Time::builder()->today(16, 00);
+        $otherTime = Time::builder()->today(17, 00);
+
+        $this->assertFalse($time->compareTo($otherTime)->isEqual());
+        $this->assertFalse($otherTime->compareTo($time)->isEqual());
+
+        $this->assertTrue($time->compareTo($otherTime)->isNotEqual());
+        $this->assertTrue($otherTime->compareTo($time)->isNotEqual());
+
+        $this->assertFalse($time->compareTo($otherTime)->isMore());
+        $this->assertTrue($otherTime->compareTo($time)->isMore());
+
+        $this->assertTrue($time->compareTo($otherTime)->isNotMore());
+        $this->assertFalse($otherTime->compareTo($time)->isNotMore());
+
+        $this->assertTrue($time->compareTo($otherTime)->isLess());
+        $this->assertFalse($otherTime->compareTo($time)->isLess());
+
+        $this->assertFalse($time->compareTo($otherTime)->isNotLess());
+        $this->assertTrue($otherTime->compareTo($time)->isNotLess());
+
+        $time = Time::builder()->today(16, 01);
+        $otherTime = Time::builder()->today(16, 02);
+
+        $this->assertFalse($time->compareTo($otherTime)->isEqual());
+        $this->assertFalse($otherTime->compareTo($time)->isEqual());
+
+        $this->assertTrue($time->compareTo($otherTime)->isNotEqual());
+        $this->assertTrue($otherTime->compareTo($time)->isNotEqual());
+
+        $this->assertFalse($time->compareTo($otherTime)->isMore());
+        $this->assertTrue($otherTime->compareTo($time)->isMore());
+
+        $this->assertTrue($time->compareTo($otherTime)->isNotMore());
+        $this->assertFalse($otherTime->compareTo($time)->isNotMore());
+
+        $this->assertTrue($time->compareTo($otherTime)->isLess());
+        $this->assertFalse($otherTime->compareTo($time)->isLess());
+
+        $this->assertFalse($time->compareTo($otherTime)->isNotLess());
+        $this->assertTrue($otherTime->compareTo($time)->isNotLess());
     }
 }
