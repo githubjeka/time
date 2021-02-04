@@ -15,6 +15,7 @@ namespace etcoder\Time\Periods\Interfaces;
 
 
 use etcoder\Time\Instants\Month;
+use etcoder\Time\Instants\Year;
 use etcoder\Time\Periods\Period;
 
 /**
@@ -23,4 +24,10 @@ use etcoder\Time\Periods\Period;
 interface BuilderPeriod
 {
     public function byMonth(Month $month): Period;
+
+    public function byYear(Year $year): Period;
+
+    public function currentMonth(): Period;
+
+    public function currentYear(): Period;
 }

@@ -17,6 +17,7 @@ use etcoder\Time\Instants\Builders\BuilderMonth;
 use etcoder\Time\Instants\Formats\MonthFormatting;
 use etcoder\Time\Instants\Interfaces\{BuilderMonth as BuilderMonthInterface, ComparisonResult, Days};
 use etcoder\Time\Instants\Internal\{Comparison\MonthsComparison, DaysOfMonth, Instant, SeasonalMonth};
+use etcoder\Time\Periods\Period;
 
 /**
  * @method Month[] arrayTo(Month $month, int $step = 1)
@@ -49,11 +50,6 @@ final class Month extends Instant
         return new BuilderMonth();
     }
 
-    public function number(): int
-    {
-        return $this->numberMonth;
-    }
-
     public function year(): Year
     {
         return $this->year;
@@ -61,10 +57,26 @@ final class Month extends Instant
 
     /**
      * Provides days for this Month
+     * @deprecated
      */
     public function days(): Days
     {
         return new DaysOfMonth($this);
+    }
+
+    public function firstDay(): Day
+    {
+        return $this->asPeriod()->dayScale()->start();
+    }
+
+    public function lastDay(): Day
+    {
+        return $this->asPeriod()->dayScale()->end();
+    }
+
+    public function asPeriod(): Period
+    {
+        return Period::builder()->byMonth($this);
     }
 
     public function format(): MonthFormatting
@@ -86,6 +98,11 @@ final class Month extends Instant
             $step--;
         } while ($step !== 0);
         return new Month($year, $numberMonth);
+    }
+
+    public function number(): int
+    {
+        return $this->numberMonth;
     }
 
     public function previous(int $step = 1): Month

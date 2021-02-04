@@ -29,6 +29,21 @@ final class BuilderDay
         return $this->stringToDay($iso8601);
     }
 
+    private function stringToDay(string $string): Day
+    {
+        try {
+            $dateTime = new \DateTimeImmutable($string);
+        } catch (\Exception $exception) {
+            throw new \InvalidArgumentException($exception->getMessage());
+        }
+
+        if ($dateTime === false) {
+            throw new \InvalidArgumentException("$string is wrong");
+        }
+
+        return $this->byDatetime($dateTime);
+    }
+
     /**
      * Returns Day by PHP DateTime object
      */
@@ -42,6 +57,19 @@ final class BuilderDay
     }
 
     /**
+     * Returns current Day
+     */
+    public function now(): Day
+    {
+        return $this->byDatetime(new \DateTimeImmutable());
+    }
+
+    public function dayOfMonth(Month $month, int $numberDay): Day
+    {
+       return $this->byIntParams($month->year()->number(), $month->number(), $numberDay);
+    }
+
+    /**
      * Returns Day according to integers values of number year, month and day
      */
     public function byIntParams(int $year, int $month, int $day): Day
@@ -52,29 +80,6 @@ final class BuilderDay
             $format = 'Y-n-j';
         }
         $dateTime = \DateTimeImmutable::createFromFormat($format, "$year-$month-$day");
-        return $this->byDatetime($dateTime);
-    }
-
-    /**
-     * Returns current Day
-     */
-    public function now(): Day
-    {
-        return $this->byDatetime(new \DateTimeImmutable());
-    }
-
-    private function stringToDay(string $string): Day
-    {
-        try {
-            $dateTime = new \DateTimeImmutable($string);
-        } catch (\Exception $exception) {
-            throw new \InvalidArgumentException($exception->getMessage());
-        }
-
-        if ($dateTime === false) {
-            throw new \InvalidArgumentException("$string is wrong");
-        }
-
         return $this->byDatetime($dateTime);
     }
 }
