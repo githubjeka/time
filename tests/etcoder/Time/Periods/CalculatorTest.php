@@ -17,7 +17,7 @@ class CalculatorTest extends TestCase
     public function testSplit()
     {
         $month = Month::builder()->byIntParams(2021, 01);
-        $criticalDay = Day::builder()->dayOfMonth($month, 15);
+        $criticalDay = Day::builder()->ofMonth($month, 15);
 
         $instants = new Instants(
             Time::builder()->midnightDay($criticalDay)

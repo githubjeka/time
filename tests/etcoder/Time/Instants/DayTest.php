@@ -16,6 +16,10 @@ namespace etcoder\Time\Instants;
 use etcoder\Time\Instants\Interfaces\Instant;
 use PHPUnit\Framework\TestCase;
 
+use function etcoder\Time\Instants\Builders\day_by_datetime;
+use function etcoder\Time\Instants\Builders\day_by_string;
+use function etcoder\Time\Instants\Builders\today;
+
 class DayTest extends TestCase
 {
     public function testBuilder()
@@ -26,7 +30,7 @@ class DayTest extends TestCase
         $this->assertInstanceOf(Day::class, $builder->byString("2000-01-20"));
         $this->assertInstanceOf(Day::class, $builder->byString("20000120"));
         $this->assertInstanceOf(Day::class, $builder->byIntParams(2000, 1, 4));
-        $this->assertInstanceOf(Day::class, $builder->now());
+        $this->assertInstanceOf(Day::class, $builder->today());
 
         $day = $builder->byString("20000120");
 
@@ -52,6 +56,10 @@ class DayTest extends TestCase
         $this->assertEquals(5, $day->number());
         $this->assertEquals(1, $day->month()->number());
         $this->assertEquals(1999, $day->year()->number());
+
+        $this->assertInstanceOf(Day::class, today());
+        $this->assertInstanceOf(Day::class, day_by_string('2021-01-31'));
+        $this->assertInstanceOf(Day::class, day_by_datetime(new \DateTime()));
     }
 
     public function testInstant()

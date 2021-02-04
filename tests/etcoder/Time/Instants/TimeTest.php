@@ -49,7 +49,7 @@ class TimeTest extends TestCase
         $this->assertEquals(0, $time->next(60)->minute());
         $this->assertEquals(01, $time->next(60)->second());
 
-        $time = Time::builder()->midnightDay(Day::builder()->now());
+        $time = Time::builder()->midnightDay(Day::builder()->today());
         $this->assertInstanceOf(Instant::class, $time);
 
         $this->assertEquals(0, $time->hour());
@@ -108,8 +108,8 @@ class TimeTest extends TestCase
         $this->assertTrue($time->compareTo($otherTime)->isNotMore());
         $this->assertFalse($time->compareTo($otherTime)->isLess());
 
-        $time = Time::builder()->midnightDay(Day::builder()->now());
-        $otherTime = Time::builder()->midnightDay(Day::builder()->now()->next());
+        $time = Time::builder()->midnightDay(Day::builder()->today());
+        $otherTime = Time::builder()->midnightDay(Day::builder()->today()->next());
 
         $this->assertFalse($time->compareTo($otherTime)->isEqual());
         $this->assertFalse($time->compareTo($otherTime)->isMore());

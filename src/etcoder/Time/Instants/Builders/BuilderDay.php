@@ -11,75 +11,106 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace etcoder\Time\Instants\Builders;
+namespace etcoder\Time\Instants\Builders {
 
-use etcoder\Time\Instants\Day;
-use etcoder\Time\Instants\Month;
-use etcoder\Time\Instants\Year;
+    use DateTimeInterface;
+    use etcoder\Time\Instants\Day;
+    use etcoder\Time\Instants\Month;
+    use etcoder\Time\Instants\Year;
 
-final class BuilderDay
-{
-    /**
-     * Returns Day by string format iso8601
-     * https://en.wikipedia.org/wiki/ISO_8601
-     * "YYYY-MM-DD" in the extended format or "YYYYMMDD" in the basic format.
-     */
-    public function byString(string $iso8601): Day
+    final class BuilderDay
     {
-        return $this->stringToDay($iso8601);
-    }
+        /**
+         * Returns Day by string format iso8601
+         * https://en.wikipedia.org/wiki/ISO_8601
+         * "YYYY-MM-DD" in the extended format or "YYYYMMDD" in the basic format.
+         * @throws \Exception
+         */
+        public function byString(string $iso8601): Day
+        {
+            return $this->stringToDay($iso8601);
+        }
 
-    private function stringToDay(string $string): Day
-    {
-        try {
+        /**
+         * @throws \Exception
+         */
+        private function stringToDay(string $string): Day
+        {
             $dateTime = new \DateTimeImmutable($string);
-        } catch (\Exception $exception) {
-            throw new \InvalidArgumentException($exception->getMessage());
+            return $this->byDatetime($dateTime);
         }
 
-        if ($dateTime === false) {
-            throw new \InvalidArgumentException("$string is wrong");
+        /**
+         * Returns Day by PHP DateTime object
+         */
+        public function byDatetime(DateTimeInterface $dateTime): Day
+        {
+            $year = new Year((int)$dateTime->format('Y'));
+            $month = new Month($year, (int)$dateTime->format('n'));
+            $dayOfMonth = $dateTime->format('d');
+
+            return new Day($month, (int)$dayOfMonth);
         }
 
-        return $this->byDatetime($dateTime);
+        /**
+         * Returns the current calendar day
+         */
+        public function today(): Day
+        {
+            return $this->byDatetime(new \DateTimeImmutable());
+        }
+
+        /**
+         * Returns Day by number of Month.
+         * @throws \Exception
+         */
+        public function ofMonth(Month $month, int $numberDay): Day
+        {
+            return $this->byIntParams($month->year()->number(), $month->number(), $numberDay);
+        }
+
+        /**
+         * Returns Day according to integers values of number year, month and day
+         * @throws \Exception
+         */
+        public function byIntParams(int $year, int $month, int $day): Day
+        {
+            if ($year <= 99) {
+                $format = 'y-n-j';
+            } else {
+                $format = 'Y-n-j';
+            }
+            $dateTime = \DateTimeImmutable::createFromFormat($format, "$year-$month-$day");
+            if ($dateTime === false) {
+                throw new \Exception('something wrong');
+            }
+
+            return $this->byDatetime($dateTime);
+        }
     }
 
     /**
-     * Returns Day by PHP DateTime object
+     * @see BuilderDay::today()
      */
-    public function byDatetime(\DateTimeInterface $dateTime): Day
+    function today(): Day
     {
-        $year = new Year((int)$dateTime->format('Y'));
-        $month = new Month($year, (int)$dateTime->format('n'));
-        $dayOfMonth = $dateTime->format('d');
-
-        return new Day($month, (int)$dayOfMonth);
+        return Day::builder()->today();
     }
 
     /**
-     * Returns current Day
+     * @throws \Exception
+     * @see BuilderDay::byString()
      */
-    public function now(): Day
+    function day_by_string(string $day): Day
     {
-        return $this->byDatetime(new \DateTimeImmutable());
-    }
-
-    public function dayOfMonth(Month $month, int $numberDay): Day
-    {
-       return $this->byIntParams($month->year()->number(), $month->number(), $numberDay);
+        return Day::builder()->byString($day);
     }
 
     /**
-     * Returns Day according to integers values of number year, month and day
+     * @see BuilderDay::day_by_datetime()
      */
-    public function byIntParams(int $year, int $month, int $day): Day
+    function day_by_datetime(DateTimeInterface $day): Day
     {
-        if ($year <= 99) {
-            $format = 'y-n-j';
-        } else {
-            $format = 'Y-n-j';
-        }
-        $dateTime = \DateTimeImmutable::createFromFormat($format, "$year-$month-$day");
-        return $this->byDatetime($dateTime);
+        return Day::builder()->byDatetime($day);
     }
 }

@@ -25,7 +25,7 @@ final class BuilderHour
 
     public function today(int $hour): Hour
     {
-        return new Hour(Day::builder()->now(), $hour);
+        return new Hour(Day::builder()->today(), $hour);
     }
 
     public function midnightDay(Day $day): Hour

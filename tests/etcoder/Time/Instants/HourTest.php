@@ -30,7 +30,7 @@ class HourTest extends TestCase
 
     public function testCompare()
     {
-        $day = Day::builder()->now();
+        $day = Day::builder()->today();
         $hour = Hour::builder()->hourOfDay($day, 16);
         $otherHour = Hour::builder()->hourOfDay($day, 17);
 

@@ -29,7 +29,10 @@ final class Day extends Instant
 {
     use SeasonalMonth;
 
+    /** @var Month */
     private $month;
+
+    /** @var int */
     private $numberDay;
 
     public function __construct(Month $month, int $numberDay)
@@ -38,9 +41,9 @@ final class Day extends Instant
             throw new \InvalidArgumentException("Day of the month ($numberDay)cannot be negative");
         }
 
-        $lastDay = $month->days()->lastNumber();
-        if ($numberDay > $lastDay) {
-            throw new \InvalidArgumentException("Day of the month cannot be more $lastDay");
+        $numberLastDay = $month->days()->lastNumber();
+        if ($numberDay > $numberLastDay) {
+            throw new \InvalidArgumentException("Day of the month cannot be more $numberLastDay");
         }
 
         $this->month = $month;

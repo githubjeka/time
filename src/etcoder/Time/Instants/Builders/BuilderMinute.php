@@ -20,7 +20,7 @@ final class BuilderMinute
 {
     public function today(int $hour, int $minute): Minute
     {
-        return new Minute(Day::builder()->now(), $hour, $minute);
+        return new Minute(Day::builder()->today(), $hour, $minute);
     }
 
     public function midnightDay(Day $day): Minute

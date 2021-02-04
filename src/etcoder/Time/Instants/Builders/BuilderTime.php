@@ -22,7 +22,7 @@ final class BuilderTime
 
     public function __construct()
     {
-        $this->day = Day::builder()->now();
+        $this->day = Day::builder()->today();
     }
 
     public function today(int $hour, int $minute, int $second = 0): Time
