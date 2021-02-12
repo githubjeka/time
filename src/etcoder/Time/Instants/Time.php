@@ -15,6 +15,8 @@ namespace etcoder\Time\Instants;
 
 
 use etcoder\Time\Instants\Builders\BuilderTime;
+use etcoder\Time\Instants\Formats\TimeFormatting;
+use etcoder\Time\Instants\Formats\YearFormatting;
 use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\TimeComparison;
 use etcoder\Time\Instants\Internal\Instant;
@@ -73,6 +75,11 @@ final class Time extends Instant
     public function second(): int
     {
         return $this->second;
+    }
+
+    public function format(): TimeFormatting
+    {
+        return new TimeFormatting($this);
     }
 
     public function next(int $step = 1) : Time

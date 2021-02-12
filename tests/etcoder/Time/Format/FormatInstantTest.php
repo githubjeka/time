@@ -15,6 +15,7 @@ namespace etcoder\Time\Format;
 
 use etcoder\Time\Instants\Day;
 use etcoder\Time\Instants\Month;
+use etcoder\Time\Instants\Time;
 use etcoder\Time\Instants\Year;
 use PHPUnit\Framework\TestCase;
 
@@ -38,5 +39,14 @@ class FormatInstantTest extends TestCase
     {
         $year = Year::builder()->byInt(2020);
         $this->assertEquals('2020', $year->format()->toBasic());
+    }
+
+    public function testTime()
+    {
+        $time = Time::builder()
+            ->forDay(Day::builder()->byIntParams(2021, 1, 3))
+            ->time(8, 6, 7);
+
+        $this->assertEquals('2021-01-03 08:06:07', $time->format()->toString());
     }
 }
