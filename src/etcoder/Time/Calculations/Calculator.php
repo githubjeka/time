@@ -6,6 +6,8 @@ namespace etcoder\Time\Calculations;
 
 
 use etcoder\Time\Instants\Internal\Instant;
+use etcoder\Time\Instants\Time;
+use etcoder\Time\Periods\Duration;
 use etcoder\Time\Periods\Period;
 use etcoder\Time\Periods\Periods;
 
@@ -48,5 +50,15 @@ class Calculator
         }
 
         return new Periods(...$result);
+    }
+
+    public function duration(Time $point, Time $otherPoint): Duration
+    {
+        $years = (int)abs($point->day()->year()->number() - $otherPoint->day()->year()->number());
+        $months = (int)abs($point->day()->month()->number() - $otherPoint->day()->month()->number());
+        $days = (int)abs($point->day()->number() - $otherPoint->day()->number());
+        $hours = (int)abs($point->hour() - $otherPoint->hour());
+        $minutes = (int)abs($point->minute() - $otherPoint->minute());
+        $seconds = (int)abs($point->second() - $otherPoint->second());
     }
 }
