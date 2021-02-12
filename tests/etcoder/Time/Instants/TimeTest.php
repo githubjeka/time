@@ -74,6 +74,14 @@ class TimeTest extends TestCase
         $this->assertEquals(15, $time->hour());
         $this->assertEquals(23, $time->minute());
         $this->assertEquals(0, $time->second());
+
+        $time = Time::builder()->byDatetime(\DateTimeImmutable::createFromFormat('Y-m-d H:i:s','2021-01-14 10:15:00'));
+        $this->assertEquals(14, $time->day()->number());
+        $this->assertEquals(1, $time->day()->month()->number());
+        $this->assertEquals(2021, $time->day()->month()->year()->number());
+        $this->assertEquals(10, $time->hour());
+        $this->assertEquals(15, $time->minute());
+        $this->assertEquals(0, $time->second());
     }
 
     public function testCompare()

@@ -25,15 +25,19 @@ final class BuilderTime
         $this->day = Day::builder()->today();
     }
 
+    public function byDatetime(\DateTimeInterface $dateTime): Time
+    {
+        return new Time(
+            Day::builder()->byDatetime($dateTime),
+            (int)$dateTime->format('H'),
+            (int)$dateTime->format('i'),
+            (int)$dateTime->format('s')
+        );
+    }
+
     public function today(int $hour, int $minute, int $second = 0): Time
     {
         return $this->time($hour, $minute, $second);
-    }
-
-    public function forDay(Day $day): BuilderTime
-    {
-        $this->day = $day;
-        return $this;
     }
 
     public function time(int $hour, int $minute, int $second = 0): Time
@@ -44,6 +48,12 @@ final class BuilderTime
     public function midnightDay(Day $day): Time
     {
         return $this->forDay($day)->time(0, 0);
+    }
+
+    public function forDay(Day $day): BuilderTime
+    {
+        $this->day = $day;
+        return $this;
     }
 
     public function endDay(Day $day): Time
