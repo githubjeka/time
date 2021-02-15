@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace etcoder\Time\Instants\Formats;
 
 
+use DateTimeImmutable;
 use etcoder\Time\Instants\Time;
 
 final class TimeFormatting
@@ -25,15 +26,20 @@ final class TimeFormatting
         $this->time = $time;
     }
 
+    public function toDatetime(): DateTimeImmutable
+    {
+        return DateTimeImmutable::createFromFormat('Y-m-d H:m:i', $this->toString());
+    }
+
     /**
      * String "YYYY-MM-DD hh:mm:s" in the extended format
      * https://en.wikipedia.org/wiki/ISO_8601
      */
     public function toString(): string
     {
-        $hour = sprintf("%02d", $this->time->hour());
-        $minute = sprintf("%02d", $this->time->minute());
-        $second = sprintf("%02d", $this->time->second());
+        $hour = sprintf('%02d', $this->time->hour());
+        $minute = sprintf('%02d', $this->time->minute());
+        $second = sprintf('%02d', $this->time->second());
 
         return $this->time->day()->format()->toExtended() . " $hour:$minute:$second";
     }

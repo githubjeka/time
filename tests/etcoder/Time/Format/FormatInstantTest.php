@@ -48,5 +48,6 @@ class FormatInstantTest extends TestCase
             ->time(8, 6, 7);
 
         $this->assertEquals('2021-01-03 08:06:07', $time->format()->toString());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $time->format()->toDatetime());
     }
 }
