@@ -28,7 +28,7 @@ final class TimeFormatting
 
     public function toDatetime(): DateTimeImmutable
     {
-        return DateTimeImmutable::createFromFormat('Y-m-d H:m:i', $this->toString());
+        return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->toString());
     }
 
     /**
