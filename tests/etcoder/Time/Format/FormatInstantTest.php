@@ -50,4 +50,24 @@ class FormatInstantTest extends TestCase
         $this->assertEquals('2021-01-03 08:06:07', $time->format()->toString());
         $this->assertInstanceOf(\DateTimeImmutable::class, $time->format()->toDatetime());
     }
+
+    public function testTimeISO8601_2019()
+    {
+        $day = Day::builder()->byIntParams(2021, 1, 3);
+
+        $time = Time::builder()->midnightDay($day);
+
+        $this->assertEquals('2021-01-03 00:00:00', $time->format()->toString());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $time->format()->toDatetime());
+
+        $time = Time::builder()->endDay($day);
+
+        $this->assertEquals('2021-01-04 00:00:00', $time->format()->toString());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $time->format()->toDatetime());
+
+        $time = Time::builder()->forDay($day)->time(24, 0, 0);
+
+        $this->assertEquals('2021-01-04 00:00:00', $time->format()->toString());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $time->format()->toDatetime());
+    }
 }

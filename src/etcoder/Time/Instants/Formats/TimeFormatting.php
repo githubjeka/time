@@ -37,6 +37,10 @@ final class TimeFormatting
      */
     public function toString(): string
     {
+        if ($this->time->hour() === 24) {
+            return $this->time->day()->next()->format()->toExtended() . ' 00:00:00';
+        }
+
         $hour = sprintf('%02d', $this->time->hour());
         $minute = sprintf('%02d', $this->time->minute());
         $second = sprintf('%02d', $this->time->second());
