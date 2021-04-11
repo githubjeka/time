@@ -17,18 +17,20 @@ namespace etcoder\Time\Periods\Internal;
 use etcoder\Time\Instants\Month;
 use etcoder\Time\Instants\Time;
 use etcoder\Time\Instants\Year;
-use etcoder\Time\Periods\Period;
 use etcoder\Time\Periods\Interfaces\BuilderPeriod as BuilderTimeInterface;
+use etcoder\Time\Periods\Period;
 
 use function etcoder\Time\Instants\Builders\December;
+use function etcoder\Time\Instants\Builders\firstDayOfMonth;
 use function etcoder\Time\Instants\Builders\January;
+use function etcoder\Time\Instants\Builders\lastDayOfMonth;
 
 final class BuilderPeriod implements BuilderTimeInterface
 {
     public function byYear(Year $year): Period
     {
-        $startPoint = Time::builder()->midnightDay(January($year->number())->days()->first());
-        $endPoint = Time::builder()->endDay(December($year->number())->days()->last());
+        $startPoint = Time::builder()->midnightDay(firstDayOfMonth(January($year->number())));
+        $endPoint = Time::builder()->endDay(lastDayOfMonth(December($year->number())));
         return new Period($startPoint, $endPoint);
     }
 
@@ -40,8 +42,8 @@ final class BuilderPeriod implements BuilderTimeInterface
 
     public function byMonth(Month $month): Period
     {
-        $startPoint = Time::builder()->midnightDay($month->days()->first());
-        $endPoint = Time::builder()->endDay($month->days()->last());
+        $startPoint = Time::builder()->midnightDay(firstDayOfMonth($month));
+        $endPoint = Time::builder()->endDay(lastDayOfMonth($month));
         return new Period($startPoint, $endPoint);
     }
 

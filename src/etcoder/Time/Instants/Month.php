@@ -15,8 +15,8 @@ namespace etcoder\Time\Instants;
 
 use etcoder\Time\Instants\Builders\BuilderMonth;
 use etcoder\Time\Instants\Formats\MonthFormatting;
-use etcoder\Time\Instants\Interfaces\{ComparisonResult, Days};
-use etcoder\Time\Instants\Internal\{Comparison\MonthsComparison, DaysOfMonth, Instant, SeasonalMonth};
+use etcoder\Time\Instants\Interfaces\ComparisonResult;
+use etcoder\Time\Instants\Internal\{Comparison\MonthsComparison, Instant, SeasonalMonth};
 use etcoder\Time\Periods\Period;
 
 /**
@@ -28,15 +28,15 @@ final class Month extends Instant
 {
     use SeasonalMonth;
 
-    private $year;
-    private $numberMonth;
+    private Year $year;
+    private int $numberMonth;
 
     public function __construct(Year $year, int $numberMonth)
     {
         $this->year = $year;
 
         if ($numberMonth > 12 || $numberMonth < 1) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException("invalid value $numberMonth for month number");
         }
 
         $this->numberMonth = $numberMonth;
@@ -50,18 +50,25 @@ final class Month extends Instant
         return new BuilderMonth();
     }
 
+    public function number(): int
+    {
+        return $this->numberMonth;
+    }
+
     public function year(): Year
     {
         return $this->year;
     }
 
-    /**
-     * Provides days for this Month
-     * @deprecated
-     */
-    public function days(): Days
+    public function numberOfDays(): int
     {
-        return new DaysOfMonth($this);
+        $yN = $this->year()->number();
+        $mN = $this->number();
+        $datetime = \DateTimeImmutable::createFromFormat('Y-n-d', "$yN-$mN-01");
+        if ($datetime === false) {
+            throw new \LogicException();
+        }
+        return (int)($datetime->format('t'));
     }
 
     public function firstDay(): Day
@@ -98,11 +105,6 @@ final class Month extends Instant
             $step--;
         } while ($step !== 0);
         return new Month($year, $numberMonth);
-    }
-
-    public function number(): int
-    {
-        return $this->numberMonth;
     }
 
     public function previous(int $step = 1): Month

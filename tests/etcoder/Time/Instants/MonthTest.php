@@ -15,10 +15,11 @@ namespace etcoder\Time\Instants;
 
 use DateTime;
 use DateTimeImmutable;
-use etcoder\Time\Instants\Internal\DaysOfMonth;
 use PHPUnit\Framework\TestCase;
 
+use function etcoder\Time\Instants\Builders\firstDayOfMonth;
 use function etcoder\Time\Instants\Builders\January;
+use function etcoder\Time\Instants\Builders\lastDayOfMonth;
 
 class MonthTest extends TestCase
 {
@@ -35,7 +36,6 @@ class MonthTest extends TestCase
     {
         $this->assertEquals(2000, January(2000)->year()->number());
         $this->assertEquals(1, January(2000)->number());
-        $this->assertEquals(1, January(2000)->days()->first()->number());
     }
 
     public function testEstimate()
@@ -119,16 +119,16 @@ class MonthTest extends TestCase
     public function testDaysOfMonth()
     {
         $month = Month::builder()->byIntParams(2000, 1);
-        $this->assertInstanceOf(DaysOfMonth::class, $month->days());
-        $this->assertInstanceOf(Day::class, $month->days()->first());
-        $this->assertEquals(1, $month->days()->first()->number());
-        $this->assertEquals(1, $month->days()->first()->month()->number());
-        $this->assertEquals(2000, $month->days()->first()->year()->number());
 
-        $this->assertEquals(31, $month->days()->last()->number());
-        $this->assertEquals(1, $month->days()->last()->month()->number());
-        $this->assertEquals(2000, $month->days()->last()->year()->number());
+        $fistDay = firstDayOfMonth($month);
+        $this->assertInstanceOf(Day::class,  $fistDay);
+        $this->assertEquals(1,   $fistDay->number());
+        $this->assertEquals(1,  $fistDay->month()->number());
+        $this->assertEquals(2000,  $fistDay->year()->number());
 
-        $this->assertEquals(31, $month->days()->amount());
+        $lastDay = lastDayOfMonth($month);
+        $this->assertEquals(31, $month->numberOfDays());
+        $this->assertEquals(1,  $lastDay->month()->number());
+        $this->assertEquals(2000,  $lastDay->year()->number());
     }
 }

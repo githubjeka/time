@@ -19,6 +19,9 @@ use etcoder\Time\Instants\Month;
 use etcoder\Time\Instants\Time;
 use PHPUnit\Framework\TestCase;
 
+use function etcoder\Time\Instants\Builders\firstDayOfMonth;
+use function etcoder\Time\Instants\Builders\lastDayOfMonth;
+
 class PeriodTest extends TestCase
 {
     public function testBuilder()
@@ -32,8 +35,8 @@ class PeriodTest extends TestCase
         $this->assertTrue($currentMonth->year()->compareTo($period->yearScale()->start())->isEqual());
         $this->assertTrue($currentMonth->year()->compareTo($period->yearScale()->end())->isEqual());
 
-        $this->assertTrue($currentMonth->days()->first()->compareTo($period->dayScale()->start())->isEqual());
-        $this->assertTrue($currentMonth->days()->last()->compareTo($period->dayScale()->end())->isEqual());
+        $this->assertTrue(firstDayOfMonth($currentMonth)->compareTo($period->dayScale()->start())->isEqual());
+        $this->assertTrue(lastDayOfMonth($currentMonth)->compareTo($period->dayScale()->end())->isEqual());
 
         $period = new Period(Time::builder()->today(12, 10), Time::builder()->today(13, 15));
 
@@ -50,7 +53,7 @@ class PeriodTest extends TestCase
         $month = Month::builder()->byIntParams(2021, 01);
         $period = Period::builder()->byMonth($month);
 
-        $day = $month->previous()->days()->first();
+        $day = firstDayOfMonth($month->previous());
 
         $points = [
             $day,
@@ -86,7 +89,7 @@ class PeriodTest extends TestCase
         $month = Month::builder()->byIntParams(2021, 01);
         $period = Period::builder()->byMonth($month);
 
-        $day = $month->days()->first();
+        $day = firstDayOfMonth($month);
 
         $points = [
             $day,
@@ -122,7 +125,7 @@ class PeriodTest extends TestCase
         $month = Month::builder()->byIntParams(2021, 01);
         $period = Period::builder()->byMonth($month);
 
-        $day = $month->days()->first()->next();
+        $day = firstDayOfMonth($month)->next();
 
         $points = [
             $day,
@@ -158,7 +161,7 @@ class PeriodTest extends TestCase
         $month = Month::builder()->byIntParams(2021, 01);
         $period = Period::builder()->byMonth($month);
 
-        $day = $month->days()->last();
+        $day = lastDayOfMonth($month);
 
         $points = [
             $day,
@@ -194,7 +197,7 @@ class PeriodTest extends TestCase
         $month = Month::builder()->byIntParams(2021, 01);
         $period = Period::builder()->byMonth($month);
 
-        $day = $month->next()->days()->last();
+        $day = lastDayOfMonth($month->next());
 
         $points = [
             $day,
@@ -230,9 +233,9 @@ class PeriodTest extends TestCase
         $currentMonth = Month::builder()->now();
         $period = Period::builder()->byMonth($currentMonth);
 
-        $startPoint = $currentMonth->days()->first();
+        $startPoint = firstDayOfMonth($currentMonth);
 
-        $this->assertSame($currentMonth->days()->amount(), count($period->dayScale()->array()));
+        $this->assertSame($currentMonth->numberOfDays(), count($period->dayScale()->array()));
 
         foreach ($period->dayScale()->iterator() as $day) {
             $this->assertTrue($startPoint->compareTo($day)->isEqual());

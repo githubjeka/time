@@ -24,7 +24,10 @@
     "psr-4": {
       "etcoder\\Time\\": "src/etcoder/Time"
     },
-    "files": ["src/etcoder/Time/Instants/Builders/MonthsOfYear.php"]
+    "files": [
+      "src/etcoder/Time/Instants/Builders/MonthsOfYear.php",
+      "src/etcoder/Time/Instants/Builders/DaysOfMonth.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

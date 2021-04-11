@@ -20,6 +20,9 @@ use etcoder\Time\Instants\Internal\Comparison\DaysComparison;
 use etcoder\Time\Instants\Internal\Instant;
 use etcoder\Time\Instants\Internal\SeasonalMonth;
 
+use function etcoder\Time\Instants\Builders\firstDayOfMonth;
+use function etcoder\Time\Instants\Builders\lastDayOfMonth;
+
 /**
  * @method Day[] arrayTo(Day $day, int $step = 1)
  * @method \Generator|Day[] iteratorTo(Day $day, int $step = 1)
@@ -41,7 +44,7 @@ final class Day extends Instant
             throw new \InvalidArgumentException("Day of the month ($numberDay)cannot be negative");
         }
 
-        $numberLastDay = $month->days()->lastNumber();
+        $numberLastDay = $month->numberOfDays();
         if ($numberDay > $numberLastDay) {
             throw new \InvalidArgumentException("Day of the month cannot be more $numberLastDay");
         }
@@ -82,7 +85,7 @@ final class Day extends Instant
 
     public function isFirstDayMonth(): bool
     {
-        $firstDay = $this->month()->days()->first();
+        $firstDay = firstDayOfMonth($this->month());
         return $firstDay->compareTo($this)->isEqual();
     }
 
@@ -93,7 +96,7 @@ final class Day extends Instant
 
     public function isLastDayMonth(): bool
     {
-        $lastDay = $this->month()->days()->last();
+        $lastDay = lastDayOfMonth($this->month);
         return $lastDay->compareTo($this)->isEqual();
     }
 
@@ -134,7 +137,7 @@ final class Day extends Instant
     private function nextOneForDay(Day $day): Day
     {
         if ($day->isLastDayMonth()) {
-            return $day->month->next()->days()->first();
+            return firstDayOfMonth($day->month->next());
         }
 
         return new Day($day->month, $day->numberDay + 1);
@@ -143,7 +146,7 @@ final class Day extends Instant
     private function prevOneForDay(Day $day): Day
     {
         if ($day->isFirstDayMonth()) {
-            return $day->month->previous()->days()->last();
+            return lastDayOfMonth($day->month->previous());
         }
 
         return new Day($day->month, $day->numberDay - 1);
