@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace etcoder\Time\Instants\Builders;
 
-use etcoder\Time\Instants\{Interfaces\BuilderMonth as BuilderMonthInterface, Month, Year};
+use etcoder\Time\Instants\{Month, Year};
 
-final class BuilderMonth implements BuilderMonthInterface
+final class BuilderMonth
 {
     /**
      * Returns Month according to integers values of number year and month

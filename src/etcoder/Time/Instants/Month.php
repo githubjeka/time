@@ -15,7 +15,7 @@ namespace etcoder\Time\Instants;
 
 use etcoder\Time\Instants\Builders\BuilderMonth;
 use etcoder\Time\Instants\Formats\MonthFormatting;
-use etcoder\Time\Instants\Interfaces\{BuilderMonth as BuilderMonthInterface, ComparisonResult, Days};
+use etcoder\Time\Instants\Interfaces\{ComparisonResult, Days};
 use etcoder\Time\Instants\Internal\{Comparison\MonthsComparison, DaysOfMonth, Instant, SeasonalMonth};
 use etcoder\Time\Periods\Period;
 
@@ -45,7 +45,7 @@ final class Month extends Instant
     /**
      * Provides a flexible way to create Month object
      */
-    public static function builder(): BuilderMonthInterface
+    public static function builder(): BuilderMonth
     {
         return new BuilderMonth();
     }

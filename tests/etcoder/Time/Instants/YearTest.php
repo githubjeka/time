@@ -71,13 +71,4 @@ class YearTest extends TestCase
         $this->assertTrue($year->compareTo($otherYear)->isNotEqual());
         $this->assertTrue($otherYear->compareTo($year)->isNotEqual());
     }
-
-    public function testMonthsOfYear()
-    {
-        $year = new Year(2000);
-
-        $this->assertEquals(2000, $year->months()->january()->year()->number());
-        $this->assertEquals(1, $year->months()->january()->number());
-        $this->assertEquals(1, $year->months()->january()->days()->first()->number());
-    }
 }

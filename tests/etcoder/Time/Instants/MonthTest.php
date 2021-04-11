@@ -18,6 +18,8 @@ use DateTimeImmutable;
 use etcoder\Time\Instants\Internal\DaysOfMonth;
 use PHPUnit\Framework\TestCase;
 
+use function etcoder\Time\Instants\Builders\January;
+
 class MonthTest extends TestCase
 {
     public function testBuilder()
@@ -27,6 +29,13 @@ class MonthTest extends TestCase
         $this->assertInstanceOf(Month::class, $builder->byDatetime(new DateTime()));
         $this->assertInstanceOf(Month::class, $builder->byDatetime(new DateTimeImmutable()));
         $this->assertInstanceOf(Month::class, $builder->byIntParams((int)date('Y'), (int)date('m')));
+    }
+
+    public function testMonthsOfYear()
+    {
+        $this->assertEquals(2000, January(2000)->year()->number());
+        $this->assertEquals(1, January(2000)->number());
+        $this->assertEquals(1, January(2000)->days()->first()->number());
     }
 
     public function testEstimate()

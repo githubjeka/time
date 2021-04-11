@@ -17,7 +17,6 @@ use etcoder\Time\Instants\Builders\BuilderYear;
 use etcoder\Time\Instants\Formats\YearFormatting;
 use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\YearsComparison;
-use etcoder\Time\Instants\Internal\MonthsOfYear;
 use Generator;
 use InvalidArgumentException;
 
@@ -28,12 +27,12 @@ use InvalidArgumentException;
  */
 final class Year extends Internal\Instant
 {
-    private $number;
+    private int $number;
 
     public function __construct(int $number)
     {
         if ($number < 1 || $number > 32767) {
-            throw new InvalidArgumentException($number);
+            throw new InvalidArgumentException("Wrong Year value $number");
         }
         $this->number = $number;
     }
@@ -41,11 +40,6 @@ final class Year extends Internal\Instant
     public static function builder(): BuilderYear
     {
         return new BuilderYear();
-    }
-
-    public function months(): MonthsOfYear
-    {
-        return new MonthsOfYear($this);
     }
 
     public function next(int $step = 1): Year

@@ -20,12 +20,15 @@ use etcoder\Time\Instants\Year;
 use etcoder\Time\Periods\Period;
 use etcoder\Time\Periods\Interfaces\BuilderPeriod as BuilderTimeInterface;
 
+use function etcoder\Time\Instants\Builders\December;
+use function etcoder\Time\Instants\Builders\January;
+
 final class BuilderPeriod implements BuilderTimeInterface
 {
     public function byYear(Year $year): Period
     {
-        $startPoint = Time::builder()->midnightDay($year->months()->january()->days()->first());
-        $endPoint = Time::builder()->endDay($year->months()->december()->days()->last());
+        $startPoint = Time::builder()->midnightDay(January($year->number())->days()->first());
+        $endPoint = Time::builder()->endDay(December($year->number())->days()->last());
         return new Period($startPoint, $endPoint);
     }
 
@@ -45,6 +48,6 @@ final class BuilderPeriod implements BuilderTimeInterface
     public function currentYear(): Period
     {
         $year = Year::builder()->now();
-        return $this->currentYear($year);
+        return $this->byYear($year);
     }
 }
