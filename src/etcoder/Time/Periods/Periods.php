@@ -7,7 +7,10 @@ namespace etcoder\Time\Periods;
 
 class Periods implements \Countable, \IteratorAggregate, \ArrayAccess
 {
-    private $periods;
+    /**
+     * @var Period[]
+     */
+    private array $periods;
 
     public function __construct(Period  ...$periods)
     {
@@ -45,5 +48,13 @@ class Periods implements \Countable, \IteratorAggregate, \ArrayAccess
     public function offsetUnset($offset): Period
     {
         throw new \LogicException();
+    }
+
+    /**
+     * @return Period[]
+     */
+    public function toArray(): array
+    {
+        return $this->getIterator()->getArrayCopy();
     }
 }
