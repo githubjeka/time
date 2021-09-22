@@ -25,7 +25,11 @@
             <directory>./tests/etcoder/Time/Iterators/</directory>
         </testsuite>
         <testsuite name="periods">
-            <directory>./tests/etcoder/Time/Periods/</directory>
+            <directory>./tests/etcoder/Time/Periods/PeriodTest.php</directory>
+            <directory>./tests/etcoder/Time/Periods/PeriodsTest.php</directory>
+            <directory>./tests/etcoder/Time/Periods/PeriodInstantPositionTest.php</directory>
+            <directory>./tests/etcoder/Time/Periods/CalculatorTest.php</directory>
+            <directory>./tests/etcoder/Time/Periods/PeriodsSortTest.php</directory>
         </testsuite>
     </testsuites>
 </phpunit>
