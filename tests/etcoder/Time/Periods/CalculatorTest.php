@@ -38,4 +38,94 @@ class CalculatorTest extends TestCase
         $this->assertTrue($criticalDay->compareTo($secondPeriod->dayScale()->start())->isEqual());
         $this->assertTrue($month->lastDay()->compareTo($secondPeriod->dayScale()->end())->isEqual());
     }
+
+    public function testRanges()
+    {
+        $timePeriod1 = new Period(
+            Time::builder()->today(15, 0, 0),
+            Time::builder()->today(20, 0, 0)
+        );
+
+        $timePeriod2 = new Period(
+            Time::builder()->today(14, 0, 0),
+            Time::builder()->today(21, 0, 0)
+        );
+
+        $calculator = new Calculator();
+
+        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
+        $this->assertCount(1, $periods);
+        $intersection = $periods->offsetGet(0);
+
+        $this->assertEquals(15, $intersection->hourScale()->start()->value());
+        $this->assertEquals(20, $intersection->hourScale()->end()->value());
+
+        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
+        $this->assertCount(1, $periods);
+        $intersection = $periods->offsetGet(0);
+
+        $this->assertEquals(15, $intersection->hourScale()->start()->value());
+        $this->assertEquals(20, $intersection->hourScale()->end()->value());
+    }
+
+    public function testVariousRanges()
+    {
+        $timePeriod1 = new Period(
+            Time::builder()->today(15, 0, 0),
+            Time::builder()->today(16, 0, 0)
+        );
+
+        $timePeriod2 = new Period(
+            Time::builder()->today(17, 0, 0),
+            Time::builder()->today(21, 0, 0)
+        );
+        $calculator = new Calculator();
+        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
+        $this->assertCount(0, $periods);
+        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
+        $this->assertCount(0, $periods);
+    }
+
+    public function testStartSameRanges()
+    {
+        $timePeriod1 = new Period(
+            Time::builder()->today(15, 0, 0),
+            Time::builder()->today(16, 0, 0)
+        );
+
+        $timePeriod2 = new Period(
+            Time::builder()->today(15, 0, 0),
+            Time::builder()->today(17, 0, 0)
+        );
+        $calculator = new Calculator();
+        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
+        $this->assertCount(1, $periods);
+        $intersection = $periods->offsetGet(0);
+        $this->assertEquals(15, $intersection->hourScale()->start()->value());
+        $this->assertEquals(16, $intersection->hourScale()->end()->value());
+
+        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
+        $this->assertCount(1, $periods);
+        $intersection = $periods->offsetGet(0);
+        $this->assertEquals(15, $intersection->hourScale()->start()->value());
+        $this->assertEquals(16, $intersection->hourScale()->end()->value());
+    }
+
+    public function testEndSameRanges()
+    {
+        $timePeriod1 = new Period(
+            Time::builder()->today(15, 0, 0),
+            Time::builder()->today(16, 0, 0)
+        );
+
+        $timePeriod2 = new Period(
+            Time::builder()->today(16, 0, 0),
+            Time::builder()->today(17, 0, 0)
+        );
+        $calculator = new Calculator();
+        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
+        $this->assertCount(0, $periods);
+        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
+        $this->assertCount(0, $periods);
+    }
 }

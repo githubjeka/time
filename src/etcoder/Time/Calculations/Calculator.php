@@ -49,4 +49,40 @@ class Calculator
 
         return new Periods(...$result);
     }
+
+    public function intersection(Period $period, Period $anotherPeriod): Periods
+    {
+        $periods = new Periods($period, $anotherPeriod);
+
+        $sorter = new Sorter();
+        [$firstPeriod, $secondPeriod] = $sorter->sortPeriods($periods)->toArray();
+
+        $firstStart = $firstPeriod->secondScale()->start();
+        $firstFinish = $firstPeriod->secondScale()->end();
+
+        $secondStart = $secondPeriod->secondScale()->start();
+        $secondFinish = $secondPeriod->secondScale()->end();
+
+        if ($firstStart->compareTo($secondFinish)->isLess() && $firstFinish->compareTo($secondStart)->isLess()) {
+            return new Periods();
+        }
+
+        if ($firstFinish->compareTo($secondStart)->isEqual()) {
+            return new Periods();
+        }
+
+        if ($firstStart->compareTo($secondStart)->isLess()) {
+            $startTime = $secondStart;
+        } else {
+            $startTime = $firstStart;
+        }
+
+        if ($firstFinish->compareTo($secondFinish)->isLess()) {
+            $finishTime = $firstFinish;
+        } else {
+            $finishTime = $secondFinish;
+        }
+
+        return new Periods(new Period($startTime, $finishTime));
+    }
 }
