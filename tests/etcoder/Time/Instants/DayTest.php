@@ -19,6 +19,8 @@ use PHPUnit\Framework\TestCase;
 use function etcoder\Time\Instants\Builders\day_by_datetime;
 use function etcoder\Time\Instants\Builders\day_by_string;
 use function etcoder\Time\Instants\Builders\today;
+use function etcoder\Time\Instants\Builders\tomorrow;
+use function etcoder\Time\Instants\Builders\yesterday;
 
 class DayTest extends TestCase
 {
@@ -31,6 +33,16 @@ class DayTest extends TestCase
         $this->assertInstanceOf(Day::class, $builder->byString("20000120"));
         $this->assertInstanceOf(Day::class, $builder->byIntParams(2000, 1, 4));
         $this->assertInstanceOf(Day::class, $builder->today());
+        $this->assertInstanceOf(Day::class, today());
+        $this->assertInstanceOf(Day::class, tomorrow());
+        $this->assertInstanceOf(Day::class, yesterday());
+        $this->assertInstanceOf(Day::class, day_by_string('2021-01-31'));
+        $this->assertInstanceOf(Day::class, day_by_datetime(new \DateTime()));
+
+        $today = new \DateTime();
+        $this->assertEquals($today->format('Y'), today()->year()->number());
+        $this->assertEquals($today->format('m'), today()->month()->number());
+        $this->assertEquals($today->format('d'), today()->number());
 
         $day = $builder->byString("20000120");
 
@@ -56,10 +68,6 @@ class DayTest extends TestCase
         $this->assertEquals(5, $day->number());
         $this->assertEquals(1, $day->month()->number());
         $this->assertEquals(1999, $day->year()->number());
-
-        $this->assertInstanceOf(Day::class, today());
-        $this->assertInstanceOf(Day::class, day_by_string('2021-01-31'));
-        $this->assertInstanceOf(Day::class, day_by_datetime(new \DateTime()));
     }
 
     public function testInstant()

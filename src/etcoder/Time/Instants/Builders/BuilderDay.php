@@ -97,6 +97,14 @@ namespace etcoder\Time\Instants\Builders {
         return Day::builder()->today();
     }
 
+    function yesterday() : Day {
+        return Day::builder()->today()->previous();
+    }
+
+    function tomorrow() : Day {
+        return Day::builder()->today()->next();
+    }
+
     /**
      * @throws \Exception
      * @see BuilderDay::byString()
