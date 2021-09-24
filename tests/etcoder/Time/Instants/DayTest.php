@@ -140,4 +140,31 @@ class DayTest extends TestCase
         $this->assertFalse($day->isLastDayMonth());
         $this->assertTrue($day->isFirstDayMonth());
     }
+
+    public function testComparisonOperators()
+    {
+        $day = Day::builder()->byIntParams(2021,12,7);
+        $otherDay = Day::builder()->byIntParams(2022,3,4);
+        $this->assertFalse($day == $otherDay);
+        $this->assertFalse($day === $otherDay);
+        $this->assertTrue($day < $otherDay);
+        $this->assertFalse($day > $otherDay);
+
+        $day = Day::builder()->byIntParams(2023,1,2);
+        $otherDay = Day::builder()->byIntParams(2022,3,2);
+        $this->assertFalse($day == $otherDay);
+        $this->assertFalse($day === $otherDay);
+        $this->assertTrue($day > $otherDay);
+        $this->assertFalse($day < $otherDay);
+
+        $day = Day::builder()->byIntParams(2021,12,7);
+        $otherDay = Day::builder()->byIntParams(2021,12,7);
+        $this->assertTrue($day == $otherDay);
+        $this->assertFalse($day === $otherDay);
+
+        $day = Day::builder()->byIntParams(2021,12,7);
+        $otherDay = $day;
+        $this->assertTrue($day == $otherDay);
+        $this->assertTrue($day === $otherDay);
+    }
 }

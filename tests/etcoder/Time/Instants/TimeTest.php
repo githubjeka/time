@@ -75,7 +75,7 @@ class TimeTest extends TestCase
         $this->assertEquals(23, $time->minute());
         $this->assertEquals(0, $time->second());
 
-        $time = Time::builder()->byDatetime(\DateTimeImmutable::createFromFormat('Y-m-d H:i:s','2021-01-14 10:15:00'));
+        $time = Time::builder()->byDatetime(\DateTimeImmutable::createFromFormat('Y-m-d H:i:s', '2021-01-14 10:15:00'));
         $this->assertEquals(14, $time->day()->number());
         $this->assertEquals(1, $time->day()->month()->number());
         $this->assertEquals(2021, $time->day()->month()->year()->number());
@@ -177,5 +177,38 @@ class TimeTest extends TestCase
 
         $this->assertFalse($time->compareTo($otherTime)->isNotLess());
         $this->assertTrue($otherTime->compareTo($time)->isNotLess());
+    }
+
+    public function testComparisonOperators()
+    {
+        $time = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 25))->time(00, 10);
+        $otherTime = Time::builder()->forDay(Day::builder()->byIntParams(2022, 01, 29))->time(24, 00);
+        $this->assertTrue($time < $otherTime);
+        $this->assertFalse($time > $otherTime);
+        $this->assertFalse($time == $otherTime);
+        $this->assertFalse($time === $otherTime);
+        $this->assertTrue($time !== $otherTime);
+
+        $time = Time::builder()->today(00, 10);
+        $otherTime = Time::builder()->today(24, 00);
+        $this->assertTrue($time < $otherTime);
+
+        $time = Time::builder()->today(00, 10);
+        $otherTime = Time::builder()->today(24, 00);
+        $this->assertTrue($time < $otherTime);
+
+        $time = Time::builder()->today(00, 10, 33);
+        $otherTime = Time::builder()->today(01, 00, 33);
+        $this->assertTrue($time < $otherTime);
+
+        $time = Time::builder()->today(00, 00, 00);
+        $otherTime = Time::builder()->today(00, 00, 00);
+        $this->assertTrue($time == $otherTime);
+        $this->assertFalse($time === $otherTime);
+
+        $time = Time::builder()->today(00, 00, 00);
+        $otherTime = $time;
+        $this->assertTrue($time == $otherTime);
+        $this->assertTrue($time === $otherTime);
     }
 }

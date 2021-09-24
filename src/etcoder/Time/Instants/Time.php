@@ -16,7 +16,6 @@ namespace etcoder\Time\Instants;
 
 use etcoder\Time\Instants\Builders\BuilderTime;
 use etcoder\Time\Instants\Formats\TimeFormatting;
-use etcoder\Time\Instants\Formats\YearFormatting;
 use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\TimeComparison;
 use etcoder\Time\Instants\Internal\Instant;
