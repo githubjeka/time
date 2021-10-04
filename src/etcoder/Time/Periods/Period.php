@@ -17,7 +17,7 @@ namespace etcoder\Time\Periods;
 use etcoder\Time\Calculations\Calculator;
 use etcoder\Time\Calculations\results\Overlap;
 use etcoder\Time\Instants\{Hour, Internal\Instant, Minute, Time};
-use etcoder\Time\Periods\Internal\PositionResult;
+use etcoder\Time\Periods\Internal\InstantPositionResult;
 use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange, SecondsRange, YearsRange};
 
 /**
@@ -25,8 +25,8 @@ use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange
  */
 final class Period
 {
-    protected $startPoint;
-    protected $endPoint;
+    protected Time $startPoint;
+    protected Time $endPoint;
 
     public function __construct(Time $start, Time $end)
     {
@@ -78,9 +78,17 @@ final class Period
         return new SecondsRange($this->startPoint, $this->endPoint);
     }
 
-    public function relativeTo(Instant $instant): Interfaces\PositionResult
+    public function inRelationTo(Instant $instant): InstantPositionResult
     {
-        return new PositionResult($this, $instant);
+        return new InstantPositionResult($this, $instant);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function relativeTo(Instant $instant): InstantPositionResult
+    {
+        return $this->inRelationTo($instant);
     }
 
     public function overlap(Period $period): Overlap

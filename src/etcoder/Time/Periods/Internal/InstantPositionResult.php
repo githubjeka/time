@@ -20,10 +20,12 @@ use etcoder\Time\Instants\Minute;
 use etcoder\Time\Instants\Month;
 use etcoder\Time\Instants\Time;
 use etcoder\Time\Instants\Year;
-use etcoder\Time\Periods\Interfaces\PositionResult as PositionResultInterface;
 use etcoder\Time\Periods\Period;
 
-final class PositionResult implements PositionResultInterface
+/**
+ * Total results of position for Instant and Period
+ */
+final class InstantPositionResult
 {
     /** @var Instant */
     private $start;
