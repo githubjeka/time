@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace etcoder\Time\Periods\Internal;
 
 
+use etcoder\Time\Instants\Day;
 use etcoder\Time\Instants\Month;
 use etcoder\Time\Instants\Time;
 use etcoder\Time\Instants\Year;
-use etcoder\Time\Periods\Interfaces\BuilderPeriod as BuilderTimeInterface;
 use etcoder\Time\Periods\Period;
 
 use function etcoder\Time\Instants\Builders\December;
@@ -25,7 +25,7 @@ use function etcoder\Time\Instants\Builders\firstDayOfMonth;
 use function etcoder\Time\Instants\Builders\January;
 use function etcoder\Time\Instants\Builders\lastDayOfMonth;
 
-final class BuilderPeriod implements BuilderTimeInterface
+final class BuilderPeriod
 {
     public function byYear(Year $year): Period
     {
@@ -51,5 +51,13 @@ final class BuilderPeriod implements BuilderTimeInterface
     {
         $year = Year::builder()->now();
         return $this->byYear($year);
+    }
+
+    public function byDay(Day $day): Period
+    {
+        return new Period(
+            Time::builder()->midnightDay($day),
+            Time::builder()->endDay($day)
+        );
     }
 }

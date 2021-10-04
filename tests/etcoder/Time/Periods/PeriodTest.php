@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace etcoder\Time\Periods;
 
+use etcoder\Time\Instants\Day;
 use etcoder\Time\Instants\Month;
 use etcoder\Time\Instants\Time;
 use PHPUnit\Framework\TestCase;
@@ -43,6 +44,19 @@ class PeriodTest extends TestCase
         $this->assertSame(10, $period->minuteScale()->start()->value());
         $this->assertSame(15, $period->minuteScale()->end()->value());
         $this->assertSame(0, $period->secondScale()->start()->second());
+        $this->assertSame(0, $period->secondScale()->end()->second());
+
+        $day = Day::builder()->byIntParams(2021,1,2);
+        $period = Period::builder()->byDay($day);
+        $this->assertSame(2021, $period->yearScale()->start()->number());
+        $this->assertSame(1, $period->monthScale()->start()->number());
+        $this->assertSame(2, $period->dayScale()->start()->number());
+        $this->assertSame(2, $period->dayScale()->end()->number());
+        $this->assertSame(0, $period->hourScale()->start()->value());
+        $this->assertSame(0, $period->minuteScale()->start()->value());
+        $this->assertSame(0, $period->secondScale()->start()->second());
+        $this->assertSame(24, $period->hourScale()->end()->value());
+        $this->assertSame(0, $period->minuteScale()->end()->value());
         $this->assertSame(0, $period->secondScale()->end()->second());
     }
 

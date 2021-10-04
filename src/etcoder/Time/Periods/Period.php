@@ -37,7 +37,7 @@ final class Period
         }
     }
 
-    public static function builder(): Interfaces\BuilderPeriod
+    public static function builder(): Internal\BuilderPeriod
     {
         return new Internal\BuilderPeriod();
     }
