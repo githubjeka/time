@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace etcoder\Time\Calculations;
 
 
+use etcoder\Time\Calculations\results\Overlap;
 use etcoder\Time\Instants\Internal\Instant;
 use etcoder\Time\Periods\Period;
 use etcoder\Time\Periods\Periods;
@@ -50,7 +51,7 @@ class Calculator
         return new Periods(...$result);
     }
 
-    public function intersection(Period $period, Period $anotherPeriod): Periods
+    public function overlap(Period $period, Period $anotherPeriod): Overlap
     {
         $periods = new Periods($period, $anotherPeriod);
 
@@ -64,11 +65,11 @@ class Calculator
         $secondFinish = $secondPeriod->secondScale()->end();
 
         if ($firstStart->compareTo($secondFinish)->isLess() && $firstFinish->compareTo($secondStart)->isLess()) {
-            return new Periods();
+            return Overlap::null();
         }
 
         if ($firstFinish->compareTo($secondStart)->isEqual()) {
-            return new Periods();
+            return Overlap::null();
         }
 
         if ($firstStart->compareTo($secondStart)->isLess()) {
@@ -83,6 +84,18 @@ class Calculator
             $finishTime = $secondFinish;
         }
 
-        return new Periods(new Period($startTime, $finishTime));
+        return new Overlap(new Period($startTime, $finishTime));
+    }
+
+    /**
+     * @deprecated
+     */
+    public function intersection(Period $period, Period $anotherPeriod): Periods
+    {
+        $overlap = $this->overlap($period, $anotherPeriod);
+        if ($overlap->withoutOverlap()) {
+            return new Periods();
+        }
+        return new Periods($overlap->value());
     }
 }

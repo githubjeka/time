@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace etcoder\Time\Periods;
 
 
+use etcoder\Time\Calculations\Calculator;
+use etcoder\Time\Calculations\results\Overlap;
 use etcoder\Time\Instants\{Hour, Internal\Instant, Minute, Time};
 use etcoder\Time\Periods\Internal\PositionResult;
 use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange, SecondsRange, YearsRange};
@@ -79,5 +81,11 @@ final class Period
     public function relativeTo(Instant $instant): Interfaces\PositionResult
     {
         return new PositionResult($this, $instant);
+    }
+
+    public function overlap(Period $period): Overlap
+    {
+        $calculator = new Calculator();
+        return $calculator->overlap($this, $period);
     }
 }
