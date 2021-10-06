@@ -57,4 +57,9 @@ class Periods implements \Countable, \IteratorAggregate, \ArrayAccess
     {
         return $this->getIterator()->getArrayCopy();
     }
+
+    public function isEmpty(): bool
+    {
+        return $this->count() === 0;
+    }
 }

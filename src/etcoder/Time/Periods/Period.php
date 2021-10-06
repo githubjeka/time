@@ -16,6 +16,7 @@ namespace etcoder\Time\Periods;
 
 use etcoder\Time\Calculations\Calculator;
 use etcoder\Time\Calculations\results\Overlap;
+use etcoder\Time\Calculations\results\Subtract;
 use etcoder\Time\Instants\{Hour, Internal\Instant, Minute, Time};
 use etcoder\Time\Periods\Internal\InstantPositionResult;
 use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange, SecondsRange, YearsRange};
@@ -95,5 +96,11 @@ final class Period
     {
         $calculator = new Calculator();
         return $calculator->overlap($this, $period);
+    }
+
+    public function subtract(Period $period): Subtract
+    {
+        $calculator = new Calculator();
+        return $calculator->subtract($this, $period);
     }
 }

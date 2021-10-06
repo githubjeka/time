@@ -6,6 +6,7 @@ namespace etcoder\Time\Calculations;
 
 
 use etcoder\Time\Calculations\results\Overlap;
+use etcoder\Time\Calculations\results\Subtract;
 use etcoder\Time\Instants\Internal\Instant;
 use etcoder\Time\Periods\Period;
 use etcoder\Time\Periods\Periods;
@@ -85,6 +86,37 @@ class Calculator
         }
 
         return new Overlap(new Period($startTime, $finishTime));
+    }
+
+    public function subtract(Period $period, Period $anotherPeriod): Subtract
+    {
+        $periods = new Periods($period, $anotherPeriod);
+
+        $sorter = new Sorter();
+        [$firstPeriod, $secondPeriod] = $sorter->sortPeriods($periods)->toArray();
+
+        $firstStart = $firstPeriod->secondScale()->start();
+        $firstFinish = $firstPeriod->secondScale()->end();
+
+        $secondStart = $secondPeriod->secondScale()->start();
+        $secondFinish = $secondPeriod->secondScale()->end();
+
+        if ($firstFinish->compareTo($secondStart)->isNotMore()) {
+            return Subtract::null();
+        }
+
+        $periods = [];
+
+        if ($firstStart->compareTo($secondStart)->isLess() && $firstFinish->compareTo($secondStart)->isMore()) {
+            $periods[] = new Period($firstStart, $secondStart);
+        }
+        if ($secondFinish->compareTo($firstFinish)->isLess()) {
+            $periods[] = new Period($secondFinish, $firstFinish);
+        } elseif ($secondFinish->compareTo($firstFinish)->isMore()) {
+            $periods[] = new Period($firstFinish, $secondFinish);
+        }
+
+        return new Subtract(new Periods(...$periods));
     }
 
     /**
