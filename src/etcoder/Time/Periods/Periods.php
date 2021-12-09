@@ -40,12 +40,12 @@ class Periods implements \Countable, \IteratorAggregate, \ArrayAccess
         return $this->periods[$offset];
     }
 
-    public function offsetSet($offset, $value): Period
+    public function offsetSet($offset, $value): void
     {
         throw new \LogicException();
     }
 
-    public function offsetUnset($offset): Period
+    public function offsetUnset($offset): void
     {
         throw new \LogicException();
     }
