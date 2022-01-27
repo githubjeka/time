@@ -13,22 +13,25 @@ declare(strict_types=1);
 
 namespace etcoder\Time\Instants\Formats;
 
-
-use DateTimeImmutable;
 use etcoder\Time\Instants\Time;
 
 final class TimeFormatting
 {
-    private $time;
-
-    public function __construct(Time $time)
+    public function __construct(private Time $time)
     {
-        $this->time = $time;
     }
 
-    public function toDatetime(): DateTimeImmutable
+    public function toDatetime(?\DateTimeZone $timezone = null): \DateTimeImmutable
     {
-        return DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->toString());
+        $datetime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->toString(), $timezone);
+        if ($datetime === false) {
+            // False is not possible.
+            // Please send bug report
+            // print_r(DateTimeImmutable::getLastErrors());die();
+            // (╯°□°）╯︵ ┻━┻
+            throw new \UnexpectedValueException();
+        }
+        return $datetime;
     }
 
     /**
