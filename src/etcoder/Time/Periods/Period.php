@@ -75,9 +75,17 @@ final class Period
         return new MinutesRange($start, $end);
     }
 
-    public function secondScale(): SecondsRange
+    public function secondsScale(): SecondsRange
     {
         return new SecondsRange($this->startPoint, $this->endPoint);
+    }
+
+    /**
+     * @deprecated
+     */
+    public function secondScale(): SecondsRange
+    {
+        return $this->secondsScale();
     }
 
     public function positionTo(Period $period) : PeriodPositionResult {
