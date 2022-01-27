@@ -19,6 +19,7 @@ use etcoder\Time\Calculations\results\Overlap;
 use etcoder\Time\Calculations\results\Subtract;
 use etcoder\Time\Instants\{Hour, Internal\Instant, Minute, Time};
 use etcoder\Time\Periods\Internal\InstantPositionResult;
+use etcoder\Time\Periods\Internal\PeriodPositionResult;
 use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange, SecondsRange, YearsRange};
 
 /**
@@ -77,6 +78,10 @@ final class Period
     public function secondScale(): SecondsRange
     {
         return new SecondsRange($this->startPoint, $this->endPoint);
+    }
+
+    public function positionTo(Period $period) : PeriodPositionResult {
+        return new PeriodPositionResult($this, $period);
     }
 
     public function inRelationTo(Instant $instant): InstantPositionResult
