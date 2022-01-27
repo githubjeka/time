@@ -189,6 +189,12 @@ class TimeTest extends TestCase
         $this->assertFalse($time === $otherTime);
         $this->assertTrue($time !== $otherTime);
 
+        $time = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 25))->time(24, 00,00);
+        $otherTime = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 26))->time(00, 00,00);
+        // Be careful. Use compareTo()->isEquals().
+        $this->assertFalse($time == $otherTime);
+        $this->assertFalse($time === $otherTime);
+
         $time = Time::builder()->today(00, 10);
         $otherTime = Time::builder()->today(24, 00);
         $this->assertTrue($time < $otherTime);
