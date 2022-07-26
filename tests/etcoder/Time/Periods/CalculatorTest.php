@@ -52,20 +52,15 @@ class CalculatorTest extends TestCase
         );
 
         $calculator = new Calculator();
+        $overlap = $calculator->overlap($timePeriod1, $timePeriod2);
+        $this->assertTrue($overlap->hasOverlap());
+        $this->assertEquals(15, $overlap->value()->hourScale()->start()->value());
+        $this->assertEquals(20, $overlap->value()->hourScale()->end()->value());
 
-        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
-        $this->assertCount(1, $periods);
-        $intersection = $periods->offsetGet(0);
-
-        $this->assertEquals(15, $intersection->hourScale()->start()->value());
-        $this->assertEquals(20, $intersection->hourScale()->end()->value());
-
-        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
-        $this->assertCount(1, $periods);
-        $intersection = $periods->offsetGet(0);
-
-        $this->assertEquals(15, $intersection->hourScale()->start()->value());
-        $this->assertEquals(20, $intersection->hourScale()->end()->value());
+        $overlap = $calculator->overlap($timePeriod2, $timePeriod1);
+        $this->assertTrue($overlap->hasOverlap());
+        $this->assertEquals(15, $overlap->value()->hourScale()->start()->value());
+        $this->assertEquals(20, $overlap->value()->hourScale()->end()->value());
     }
 
     public function testVariousRanges()
@@ -80,10 +75,10 @@ class CalculatorTest extends TestCase
             Time::builder()->today(21, 0, 0)
         );
         $calculator = new Calculator();
-        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
-        $this->assertCount(0, $periods);
-        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
-        $this->assertCount(0, $periods);
+        $overlap = $calculator->overlap($timePeriod1, $timePeriod2);
+        $this->assertFalse($overlap->hasOverlap());
+        $overlap = $calculator->overlap($timePeriod2, $timePeriod1);
+        $this->assertFalse($overlap->hasOverlap());
     }
 
     public function testStartSameRanges()
@@ -98,17 +93,15 @@ class CalculatorTest extends TestCase
             Time::builder()->today(17, 0, 0)
         );
         $calculator = new Calculator();
-        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
-        $this->assertCount(1, $periods);
-        $intersection = $periods->offsetGet(0);
-        $this->assertEquals(15, $intersection->hourScale()->start()->value());
-        $this->assertEquals(16, $intersection->hourScale()->end()->value());
+        $overlap = $calculator->overlap($timePeriod1, $timePeriod2);
+        $this->assertTrue($overlap->hasOverlap());
+        $this->assertEquals(15, $overlap->value()->hourScale()->start()->value());
+        $this->assertEquals(16, $overlap->value()->hourScale()->end()->value());
 
-        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
-        $this->assertCount(1, $periods);
-        $intersection = $periods->offsetGet(0);
-        $this->assertEquals(15, $intersection->hourScale()->start()->value());
-        $this->assertEquals(16, $intersection->hourScale()->end()->value());
+        $overlap = $calculator->overlap($timePeriod2, $timePeriod1);
+        $this->assertTrue($overlap->hasOverlap());
+        $this->assertEquals(15, $overlap->value()->hourScale()->start()->value());
+        $this->assertEquals(16, $overlap->value()->hourScale()->end()->value());
     }
 
     public function testEndSameRanges()
@@ -123,9 +116,9 @@ class CalculatorTest extends TestCase
             Time::builder()->today(17, 0, 0)
         );
         $calculator = new Calculator();
-        $periods = $calculator->intersection($timePeriod1, $timePeriod2);
-        $this->assertCount(0, $periods);
-        $periods = $calculator->intersection($timePeriod2, $timePeriod1);
-        $this->assertCount(0, $periods);
+        $overlap = $calculator->overlap($timePeriod1, $timePeriod2);
+        $this->assertFalse($overlap->hasOverlap());
+        $overlap = $calculator->overlap($timePeriod2, $timePeriod1);
+        $this->assertFalse($overlap->hasOverlap());
     }
 }

@@ -118,16 +118,4 @@ class Calculator
 
         return new Subtract(new Periods(...$periods));
     }
-
-    /**
-     * @deprecated
-     */
-    public function intersection(Period $period, Period $anotherPeriod): Periods
-    {
-        $overlap = $this->overlap($period, $anotherPeriod);
-        if ($overlap->withoutOverlap()) {
-            return new Periods();
-        }
-        return new Periods($overlap->value());
-    }
 }

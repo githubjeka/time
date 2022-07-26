@@ -24,7 +24,7 @@ class IteratorInstantTest extends TestCase
 {
     /**
      * @dataProvider additionProvider
-     * @param $instantsArray Instant[]
+     * @param Instant[] $instantsArray
      */
     public function testInstants(array $instantsArray)
     {
@@ -78,7 +78,7 @@ class IteratorInstantTest extends TestCase
 
     /**
      * @dataProvider additionProvider
-     * @param $instantsArray Instant[]
+     * @param Instant[] $instantsArray
      */
     public function testDay(array $instantsArray)
     {
