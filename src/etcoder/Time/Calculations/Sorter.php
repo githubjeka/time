@@ -18,7 +18,7 @@ class Sorter
         usort(
             $periodsArray,
             function (Period $onePeriod, Period $anotherPeriod) {
-                $startAnotherPeriod = $anotherPeriod->secondScale()->start();
+                $startAnotherPeriod = $anotherPeriod->secondsScale()->start();
                 $position = $onePeriod->relativeTo($startAnotherPeriod);
 
                 if ($position->atStart()) {

@@ -31,7 +31,7 @@ class Calculator
             }
         );
 
-        $start = $period->secondScale()->start();
+        $start = $period->secondsScale()->start();
 
         foreach ($instants as $instant) {
             if ($period->relativeTo($instant)->isBetween()) {
@@ -45,7 +45,7 @@ class Calculator
         } else {
             $result[] = new Period(
                 $start,
-                $period->secondScale()->end()
+                $period->secondsScale()->end()
             );
         }
 
@@ -59,11 +59,11 @@ class Calculator
         $sorter = new Sorter();
         [$firstPeriod, $secondPeriod] = $sorter->sortPeriods($periods)->toArray();
 
-        $firstStart = $firstPeriod->secondScale()->start();
-        $firstFinish = $firstPeriod->secondScale()->end();
+        $firstStart = $firstPeriod->secondsScale()->start();
+        $firstFinish = $firstPeriod->secondsScale()->end();
 
-        $secondStart = $secondPeriod->secondScale()->start();
-        $secondFinish = $secondPeriod->secondScale()->end();
+        $secondStart = $secondPeriod->secondsScale()->start();
+        $secondFinish = $secondPeriod->secondsScale()->end();
 
         if ($firstStart->compareTo($secondFinish)->isLess() && $firstFinish->compareTo($secondStart)->isLess()) {
             return Overlap::null();
@@ -95,11 +95,11 @@ class Calculator
         $sorter = new Sorter();
         [$firstPeriod, $secondPeriod] = $sorter->sortPeriods($periods)->toArray();
 
-        $firstStart = $firstPeriod->secondScale()->start();
-        $firstFinish = $firstPeriod->secondScale()->end();
+        $firstStart = $firstPeriod->secondsScale()->start();
+        $firstFinish = $firstPeriod->secondsScale()->end();
 
-        $secondStart = $secondPeriod->secondScale()->start();
-        $secondFinish = $secondPeriod->secondScale()->end();
+        $secondStart = $secondPeriod->secondsScale()->start();
+        $secondFinish = $secondPeriod->secondsScale()->end();
 
         if ($firstFinish->compareTo($secondStart)->isNotMore()) {
             return Subtract::null();

@@ -61,8 +61,8 @@ final class InstantPositionResult
                 $this->end = $period->hourScale()->end();
                 break;
             case Time::class:
-                $this->start = $period->secondScale()->start();
-                $this->end = $period->secondScale()->end();
+                $this->start = $period->secondsScale()->start();
+                $this->end = $period->secondsScale()->end();
                 break;
             default:
                 throw new \LogicException('Instant cannot be processed');

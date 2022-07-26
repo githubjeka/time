@@ -43,8 +43,8 @@ class PeriodTest extends TestCase
         $this->assertSame(13, $period->hourScale()->end()->value());
         $this->assertSame(10, $period->minuteScale()->start()->value());
         $this->assertSame(15, $period->minuteScale()->end()->value());
-        $this->assertSame(0, $period->secondScale()->start()->second());
-        $this->assertSame(0, $period->secondScale()->end()->second());
+        $this->assertSame(0, $period->secondsScale()->start()->second());
+        $this->assertSame(0, $period->secondsScale()->end()->second());
 
         $day = Day::builder()->byIntParams(2021,1,2);
         $period = Period::builder()->byDay($day);
@@ -54,10 +54,10 @@ class PeriodTest extends TestCase
         $this->assertSame(2, $period->dayScale()->end()->number());
         $this->assertSame(0, $period->hourScale()->start()->value());
         $this->assertSame(0, $period->minuteScale()->start()->value());
-        $this->assertSame(0, $period->secondScale()->start()->second());
+        $this->assertSame(0, $period->secondsScale()->start()->second());
         $this->assertSame(24, $period->hourScale()->end()->value());
         $this->assertSame(0, $period->minuteScale()->end()->value());
-        $this->assertSame(0, $period->secondScale()->end()->second());
+        $this->assertSame(0, $period->secondsScale()->end()->second());
     }
 
     public function testIterator()

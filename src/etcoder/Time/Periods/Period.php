@@ -80,14 +80,6 @@ final class Period
         return new SecondsRange($this->startPoint, $this->endPoint);
     }
 
-    /**
-     * @deprecated
-     */
-    public function secondScale(): SecondsRange
-    {
-        return $this->secondsScale();
-    }
-
     public function positionTo(Period $period) : PeriodPositionResult {
         return new PeriodPositionResult($this, $period);
     }

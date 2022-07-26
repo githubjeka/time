@@ -25,11 +25,11 @@ final class PeriodPositionResult
 
     public function __construct(Period $period, Period $anotherPeriod)
     {
-        $this->startFirstPeriod = $period->secondScale()->start();
-        $this->endFirstPeriod = $period->secondScale()->end();
+        $this->startFirstPeriod = $period->secondsScale()->start();
+        $this->endFirstPeriod = $period->secondsScale()->end();
 
-        $this->startSecondPeriod = $anotherPeriod->secondScale()->start();
-        $this->endSecondPeriod = $anotherPeriod->secondScale()->end();
+        $this->startSecondPeriod = $anotherPeriod->secondsScale()->start();
+        $this->endSecondPeriod = $anotherPeriod->secondsScale()->end();
     }
 
     public function isAfter(): bool
