@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the etcoder/Time package.
  *
@@ -11,12 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace etcoder\Time\Instants;
 
+use etcoder\Time\Enums\DayWeek;
 use etcoder\Time\Instants\Builders\BuilderDay;
 use etcoder\Time\Instants\Formats\DayFormatting;
 use etcoder\Time\Instants\Interfaces\ComparisonResult;
 use etcoder\Time\Instants\Internal\Comparison\DaysComparison;
+use etcoder\Time\Instants\Internal\DayWeekEquals;
 use etcoder\Time\Instants\Internal\Instant;
 use etcoder\Time\Instants\Internal\SeasonalMonth;
 
@@ -31,26 +33,18 @@ use function etcoder\Time\Instants\Builders\lastDayOfMonth;
 final class Day extends Instant
 {
     use SeasonalMonth;
+    use DayWeekEquals;
 
-    /** @var Month */
-    private $month;
-
-    /** @var int */
-    private $numberDay;
-
-    public function __construct(Month $month, int $numberDay)
+    public function __construct(public readonly Month $month, public readonly int $number)
     {
-        if ($numberDay < 0) {
-            throw new \InvalidArgumentException("Day of the month ($numberDay)cannot be negative");
+        if ($number < 0) {
+            throw new \InvalidArgumentException("Day of the month ($number) cannot be negative");
         }
 
         $numberLastDay = $month->numberOfDays();
-        if ($numberDay > $numberLastDay) {
+        if ($number > $numberLastDay) {
             throw new \InvalidArgumentException("Day of the month cannot be more $numberLastDay");
         }
-
-        $this->month = $month;
-        $this->numberDay = $numberDay;
     }
 
     public static function builder(): BuilderDay
@@ -58,16 +52,31 @@ final class Day extends Instant
         return new BuilderDay();
     }
 
-    public function number(): int
+    public function name(): DayWeek
     {
-        return $this->numberDay;
+        $date = \DateTimeImmutable::createFromFormat('Y-m-d', $this->format()->toExtended());
+        return DayWeek::fromDate($date);
     }
 
+    /**
+     * @deprecated
+     */
+    public function number(): int
+    {
+        return $this->number;
+    }
+
+    /**
+     * @deprecated
+     */
     public function year(): Year
     {
         return $this->month->year();
     }
 
+    /**
+     * @deprecated
+     */
     public function month(): Month
     {
         return $this->month;
@@ -140,7 +149,7 @@ final class Day extends Instant
             return firstDayOfMonth($day->month->next());
         }
 
-        return new Day($day->month, $day->numberDay + 1);
+        return new Day($day->month, $day->number + 1);
     }
 
     private function prevOneForDay(Day $day): Day
@@ -149,6 +158,6 @@ final class Day extends Instant
             return lastDayOfMonth($day->month->previous());
         }
 
-        return new Day($day->month, $day->numberDay - 1);
+        return new Day($day->month, $day->number - 1);
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the etcoder/Time package.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace etcoder\Time\Instants;
 
@@ -74,6 +74,8 @@ class DayTest extends TestCase
     {
         $day = Day::builder()->byIntParams(2000, 1, 1);
         $this->assertInstanceOf(Instant::class, $day);
+        $this->assertTrue($day->isSaturday());
+
         $this->assertEquals(1999, $day->previous(1)->year()->number());
         $this->assertEquals(12, $day->previous(1)->month()->number());
         $this->assertEquals(31, $day->previous(1)->number());

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the etcoder/Time package.
  *
@@ -11,17 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace etcoder\Time\Instants\Formats;
 
 use etcoder\Time\Instants\Day;
 
 final class DayFormatting
 {
-    private $day;
-
-    public function __construct(Day $day)
+    public function __construct(private readonly Day $day)
     {
-        $this->day = $day;
     }
 
     /**
@@ -50,19 +47,18 @@ final class DayFormatting
         return "$year-$month-$day";
     }
 
-
     private function yearAsString(): string
     {
-        return (string)$this->day->month()->year()->number();
+        return (string)$this->day->month->year()->number();
     }
 
     private function monthAsString(): string
     {
-        return sprintf("%02d", $this->day->month()->number());
+        return sprintf("%02d", $this->day->month->number());
     }
 
     private function dayAsString(): string
     {
-        return sprintf("%02d", $this->day->number());
+        return sprintf("%02d", $this->day->number);
     }
 }
