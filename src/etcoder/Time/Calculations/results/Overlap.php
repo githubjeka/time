@@ -17,7 +17,10 @@ use etcoder\Time\Periods\Period;
 
 final class Overlap
 {
-    private ?Period $overlapResult;
+    /**
+     * @var Period|null
+     */
+    private $overlapResult;
 
     public function __construct(?Period $overlapResult)
     {

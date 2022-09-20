@@ -17,8 +17,13 @@ use etcoder\Time\Instants\Time;
 
 final class TimeFormatting
 {
-    public function __construct(private Time $time)
+    /**
+     * @var Time
+     */
+    private $time;
+    public function __construct(Time $time)
     {
+        $this->time = $time;
     }
 
     public function toDatetime(?\DateTimeZone $timezone = null): \DateTimeImmutable

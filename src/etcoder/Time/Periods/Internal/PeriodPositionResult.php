@@ -21,7 +21,10 @@ use etcoder\Time\Periods\Period;
  */
 final class PeriodPositionResult
 {
-    private Instant $startFirstPeriod, $endFirstPeriod, $startSecondPeriod, $endSecondPeriod;
+    /**
+     * @var \etcoder\Time\Instants\Time
+     */
+    private $startFirstPeriod, $endFirstPeriod, $startSecondPeriod, $endSecondPeriod;
 
     public function __construct(Period $period, Period $anotherPeriod)
     {

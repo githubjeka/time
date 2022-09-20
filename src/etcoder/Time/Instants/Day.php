@@ -35,7 +35,19 @@ final class Day extends Instant
     use SeasonalMonth;
     use DayWeekEquals;
 
-    public function __construct(public readonly Month $month, public readonly int $number)
+    /**
+     * @var Month
+     * readonly
+     */
+    public $month;
+
+    /**
+     * @var int
+     * readonly
+     */
+    public $number;
+
+    public function __construct(Month $month, int $number)
     {
         if ($number < 0) {
             throw new \InvalidArgumentException("Day of the month ($number) cannot be negative");
@@ -45,6 +57,10 @@ final class Day extends Instant
         if ($number > $numberLastDay) {
             throw new \InvalidArgumentException("Day of the month cannot be more $numberLastDay");
         }
+
+        $this->number = $number;
+        $this->month = $month;
+
     }
 
     public static function builder(): BuilderDay

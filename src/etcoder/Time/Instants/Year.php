@@ -27,7 +27,10 @@ use InvalidArgumentException;
  */
 final class Year extends Internal\Instant
 {
-    private int $number;
+    /**
+     * @var int
+     */
+    private $number;
 
     public function __construct(int $number)
     {

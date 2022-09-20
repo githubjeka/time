@@ -17,7 +17,10 @@ use etcoder\Time\Periods\Periods;
 
 final class Subtract
 {
-    private Periods $result;
+    /**
+     * @var Periods
+     */
+    private $result;
 
     public function __construct(Periods $result)
     {

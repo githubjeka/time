@@ -27,8 +27,14 @@ use etcoder\Time\Periods\Ranges\{DaysRange, HoursRange, MinutesRange, MonthRange
  */
 final class Period
 {
-    protected Time $startPoint;
-    protected Time $endPoint;
+    /**
+     * @var Time
+     */
+    protected $startPoint;
+    /**
+     * @var Time
+     */
+    protected $endPoint;
 
     public function __construct(Time $start, Time $end)
     {

@@ -17,8 +17,14 @@ use etcoder\Time\Instants\Day;
 
 final class DayFormatting
 {
-    public function __construct(private readonly Day $day)
+    /**
+     * @var Day
+     */
+    private $day;
+
+    public function __construct(Day $day)
     {
+        $this->day = $day;
     }
 
     /**

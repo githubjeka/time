@@ -28,8 +28,14 @@ final class Month extends Instant
 {
     use SeasonalMonth;
 
-    private Year $year;
-    private int $numberMonth;
+    /**
+     * @var Year
+     */
+    private $year;
+    /**
+     * @var int
+     */
+    private $numberMonth;
 
     public function __construct(Year $year, int $numberMonth)
     {

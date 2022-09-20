@@ -10,7 +10,7 @@ class Periods implements \Countable, \IteratorAggregate, \ArrayAccess
     /**
      * @var Period[]
      */
-    private array $periods;
+    private $periods;
 
     public function __construct(Period  ...$periods)
     {
