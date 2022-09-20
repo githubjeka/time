@@ -20,6 +20,10 @@
   "require": {
     "php": ">=7.3"
   },
+  "require-dev": {
+    "phpunit/phpunit": "*",
+    "phpstan/phpstan": "*"
+  },
   "autoload": {
     "psr-4": {
       "etcoder\\Time\\": "src/etcoder/Time"
