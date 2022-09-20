@@ -15,26 +15,33 @@ namespace etcoder\Time\Enums;
 
 use DateTimeInterface;
 
-enum DayWeek
+class DayWeek
 {
-    case SUNDAY;
-    case MONDAY;
-    case TUESDAY;
-    case WEDNESDAY;
-    case THURSDAY;
-    case FRIDAY;
-    case SATURDAY;
+    public const SUNDAY = 'SUNDAY';
+    public const MONDAY = 'MONDAY';
+    public const TUESDAY = 'TUESDAY';
+    public const WEDNESDAY = 'WEDNESDAY';
+    public const THURSDAY = 'THURSDAY';
+    public const FRIDAY = 'FRIDAY';
+    public const SATURDAY = 'SATURDAY';
 
-    public static function fromDate(DateTimeInterface $dateTime): DayWeek
+    public static function fromDate(DateTimeInterface $dateTime): string
     {
-        return match ((int)$dateTime->format('w')) {
-            0 => DayWeek::SUNDAY,
-            1 => DayWeek::MONDAY,
-            2 => DayWeek::TUESDAY,
-            3 => DayWeek::WEDNESDAY,
-            4 => DayWeek::THURSDAY,
-            5 => DayWeek::FRIDAY,
-            6 => DayWeek::SATURDAY,
-        };
+        switch ((int)$dateTime->format('w')) {
+            case 0:
+                return DayWeek::SUNDAY;
+            case  1 :
+                return DayWeek::MONDAY;
+            case   2 :
+                return DayWeek::TUESDAY;
+            case    3 :
+                return DayWeek::WEDNESDAY;
+            case     4 :
+                return DayWeek::THURSDAY;
+            case    5 :
+                return DayWeek::FRIDAY;
+            case      6 :
+                return DayWeek::SATURDAY;
+        }
     }
 }

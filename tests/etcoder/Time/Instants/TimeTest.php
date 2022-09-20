@@ -189,8 +189,8 @@ class TimeTest extends TestCase
         $this->assertFalse($time === $otherTime);
         $this->assertTrue($time !== $otherTime);
 
-        $time = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 25))->time(24, 00,00);
-        $otherTime = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 26))->time(00, 00,00);
+        $time = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 25))->time(24, 00, 00);
+        $otherTime = Time::builder()->forDay(Day::builder()->byIntParams(2021, 12, 26))->time(00, 00, 00);
         // Be careful. Use compareTo()->isEquals().
         $this->assertFalse($time == $otherTime);
         $this->assertFalse($time === $otherTime);
@@ -217,4 +217,41 @@ class TimeTest extends TestCase
         $this->assertTrue($time == $otherTime);
         $this->assertTrue($time === $otherTime);
     }
+
+//    public function testSort()
+//    {
+//        $startDay = Day::builder()->byIntParams(2022, 01, 01);
+//        $startTime = new Time($startDay, 10, 00, 00);
+//        $endTime = new Time($startDay, 11, 00, 00);
+//        $step10min = 10 * 60;
+//        $range = $startTime->arrayTo($endTime, $step10min);
+//
+//        $objects = [];
+//        foreach ($range as $instant) {
+//            $class = new class implements HasInstant {
+//
+//                public $time;
+//
+//                public function getInstant(): Instant
+//                {
+//                    return $this->time;
+//                }
+//            };
+//            $class->time = $instant;
+//
+//            $objects[] = $class;
+//        }
+//
+//        shuffle($objects);
+//
+//        $sorter = new Sorter();
+//        $sorter->sortInstants($objects, true);
+//
+//        foreach (range(0, 6, 1) as $i => $minutes) {
+//            $this->assertEquals(
+//                $range[$i],
+//                $objects[$i]->getInstant()
+//            );
+//        }
+//    }
 }

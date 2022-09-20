@@ -68,7 +68,7 @@ final class Day extends Instant
         return new BuilderDay();
     }
 
-    public function name(): DayWeek
+    public function name(): string
     {
         $date = \DateTimeImmutable::createFromFormat('Y-m-d', $this->format()->toExtended());
         return DayWeek::fromDate($date);

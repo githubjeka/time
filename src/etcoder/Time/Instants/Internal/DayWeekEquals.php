@@ -17,7 +17,7 @@ use etcoder\Time\Enums\DayWeek;
 
 trait DayWeekEquals
 {
-    abstract public function name(): DayWeek;
+    abstract public function name(): string;
 
     public function isSunday(): bool
     {
