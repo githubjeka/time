@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace etcoder\Time\Instants;
 
+use etcoder\Time\Calculations\Sorter;
+use etcoder\Time\Instants\Interfaces\HasInstant;
 use etcoder\Time\Instants\Interfaces\Instant;
 use PHPUnit\Framework\TestCase;
 
@@ -218,40 +220,64 @@ class TimeTest extends TestCase
         $this->assertTrue($time === $otherTime);
     }
 
-//    public function testSort()
-//    {
-//        $startDay = Day::builder()->byIntParams(2022, 01, 01);
-//        $startTime = new Time($startDay, 10, 00, 00);
-//        $endTime = new Time($startDay, 11, 00, 00);
-//        $step10min = 10 * 60;
-//        $range = $startTime->arrayTo($endTime, $step10min);
-//
-//        $objects = [];
-//        foreach ($range as $instant) {
-//            $class = new class implements HasInstant {
-//
-//                public $time;
-//
-//                public function getInstant(): Instant
-//                {
-//                    return $this->time;
-//                }
-//            };
-//            $class->time = $instant;
-//
-//            $objects[] = $class;
-//        }
-//
-//        shuffle($objects);
-//
-//        $sorter = new Sorter();
-//        $sorter->sortInstants($objects, true);
-//
-//        foreach (range(0, 6, 1) as $i => $minutes) {
-//            $this->assertEquals(
-//                $range[$i],
-//                $objects[$i]->getInstant()
-//            );
-//        }
-//    }
+    public function testSortInstants()
+    {
+        $startDay = Day::builder()->byIntParams(2022, 01, 01);
+        $startTime = new Time($startDay, 10, 00, 00);
+        $endTime = new Time($startDay, 11, 00, 00);
+        $step10min = 10 * 60;
+        /** @var Time[] $range */
+        $range = $startTime->arrayTo($endTime, $step10min);
+
+        $instants = $range;
+        shuffle($instants);
+        $sorter = new Sorter();
+        $sorter->sortInstants($instants, true);
+
+        foreach (range(0, 6) as $i => $minutes) {
+            $this->assertEquals(
+                $range[$i],
+                $instants[$i],
+                'step - '.$i
+            );
+        }
+    }
+
+    public function testSortObjects()
+    {
+        $startDay = Day::builder()->byIntParams(2022, 01, 01);
+        $startTime = new Time($startDay, 10, 00, 00);
+        $endTime = new Time($startDay, 11, 00, 00);
+        $step10min = 10 * 60;
+        /** @var Time[] $range */
+        $range = $startTime->arrayTo($endTime, $step10min);
+
+        $objects = [];
+        foreach ($range as $instant) {
+            $class = new class implements HasInstant {
+
+                public $time;
+
+                public function getInstant(): Instant
+                {
+                    return $this->time;
+                }
+            };
+            $class->time = $instant;
+
+            $objects[] = $class;
+        }
+
+        shuffle($objects);
+        $sorter = new Sorter();
+        $sorter->sortInstants($objects, true);
+
+        foreach (range(0, 6) as $i => $minutes) {
+            $this->assertEquals(
+                $range[$i],
+                $objects[$i]->getInstant(),
+                'step - '.$i
+            );
+        }
+    }
 }
